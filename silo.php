@@ -6,7 +6,7 @@ Description: Silo web design tools for sites built using static pages.
 Author: Denis de Bernardy
 Version: 2.3
 Author URI: http://www.getsemiologic.com
-Update Service: http://version.semiologic.com/wordpress
+Update Service: http://version.semiologic.com/plugins
 Update Tag: silo
 Update Package: http://www.semiologic.com/media/software/widgets/silo/silo.zip
 */
