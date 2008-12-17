@@ -187,11 +187,11 @@ class widget_utils
 			if ( $_POST['widgets_exclude'])
 			{
 				add_post_meta($post_ID, '_widgets_exclude', '1', true);
-			}
-			
-			if ( $_POST['widgets_exception'])
-			{
-				add_post_meta($post_ID, '_widgets_exception', '1', true);
+				
+				if ( $_POST['widgets_exception'])
+				{
+					add_post_meta($post_ID, '_widgets_exception', '1', true);
+				}
 			}
 			
 			$label = trim(strip_tags(stripslashes($_POST['widgets_label'])));
