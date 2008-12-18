@@ -666,8 +666,12 @@ class silo
 		
 		if ( $children[$item_id] )
 		{
+			$o .= '<ul>' . "\n";
+			
 			foreach ( $children[$item_id] as $child_id )
 			{
+				$o .= '<li>';
+				
 				$link = $post_label[$child_id];
 
 				$link = '<a href="' . htmlspecialchars(get_permalink($child_id)) . '">'
@@ -676,13 +680,18 @@ class silo
 
 				$o .= '<h3>'
 					. $link
-					. '</h3>' . "\n\n";
+					. '</h3>';
 
 				if ( $post_desc[$child_id] )
 				{
-					$o .= wpautop($post_desc[$child_id]);
+					$o .= "\n\n"
+						. wpautop($post_desc[$child_id]);
 				}
+				
+				$o .= '</li>' . "\n\n";
 			}
+			
+			$o .= '</ul>';
 		}
 		
 		return $o;
