@@ -666,7 +666,7 @@ class silo
 		
 		if ( $children[$item_id] )
 		{
-			$o .= '<ul class="page_children">' . "\n";
+			$o .= '<ul>' . "\n";
 			
 			foreach ( $children[$item_id] as $child_id )
 			{
