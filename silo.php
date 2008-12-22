@@ -670,7 +670,14 @@ class silo
 			
 			foreach ( $children[$item_id] as $child_id )
 			{
-				$o .= '<li>';
+				if ( $children[$child_id] )
+				{
+					$o .= '<li class="nav_branch">';
+				}
+				else
+				{
+					$o .= '<li class="nav_leaf">';
+				}
 				
 				$link = $post_label[$child_id];
 
