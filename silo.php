@@ -21,6 +21,8 @@ http://www.mesoconcepts.com/license/
 **/
 
 
+define('silo_debug', false);
+
 class silo
 {
 	#
@@ -123,7 +125,7 @@ class silo
 		}
 		
 		# front end: serve cache if available
-		if ( !is_admin() )
+		if ( !is_admin() && !silo_debug )
 		{
 			if ( is_page() )
 			{
@@ -519,7 +521,7 @@ class silo
 		}
 		
 		# front end: serve cache if available
-		if ( in_array(
+		if ( !silo_debug && in_array(
 				'_silo_widgets_cache_stub',
 				(array) get_post_custom_keys($page_id)
 				)
@@ -737,7 +739,7 @@ class silo
 		}
 		
 		# front end: serve cache if available
-		if ( in_array(
+		if ( !silo_debug && in_array(
 				'_silo_widgets_cache_map',
 				(array) get_post_custom_keys($page_id)
 				)
