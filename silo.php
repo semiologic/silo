@@ -531,7 +531,6 @@ class silo
 			echo $cache;
 			return;
 		}
-	
 		
 		# init
 		global $wpdb;
