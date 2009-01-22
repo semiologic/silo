@@ -3,12 +3,10 @@
 Plugin Name: Silo Widgets
 Plugin URI: http://www.semiologic.com/software/widgets/silo/
 Description: Silo web design tools for sites built using static pages.
+Version: 2.3.2 alpha
 Author: Denis de Bernardy
-Version: 2.3.1
 Author URI: http://www.getsemiologic.com
-Update Service: http://version.semiologic.com/plugins
-Update Tag: silo
-Update Package: http://www.semiologic.com/media/software/widgets/silo/silo.zip
+Update Package: https://members.semiologic.com/media/plugins/silo.zip
 */
 
 /*

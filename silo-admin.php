@@ -24,8 +24,6 @@ class silo_admin
 			update_option('silo_widgets_cache', array());
 		}
 		
-		add_filter('sem_api_key_protected', array('silo_admin', 'sem_api_key_protected'));
-
 		if ( version_compare(mysql_get_server_info(), '4.1', '<') )
 		{
 			add_action('admin_notices', array('silo_admin', 'mysql_warning'));
@@ -44,18 +42,6 @@ class silo_admin
 			. '<p><b style="color: firebrick;">Silo Web Design Error</b><br /><b>Your MySQL version is lower than 4.1.</b> It\'s time to <a href="http://www.semiologic.com/resources/wp-basics/wordpress-server-requirements/">change hosts</a> if yours doesn\'t want to upgrade.</p>'
 			. '</div>';
 	} # mysql_warning()
-
-
-	#
-	# sem_api_key_protected()
-	#
-	
-	function sem_api_key_protected($array)
-	{
-		$array[] = 'http://www.semiologic.com/media/software/widgets/silo/silo.zip';
-		
-		return $array;
-	} # sem_api_key_protected()
 
 
 	#
