@@ -1025,7 +1025,7 @@ class silo
 	{
 		$o = silo::get_options();
 		$k = time();
-		do $k++; while ( isset($o[$k]) );
+		while ( isset($o[$k]) ) $k++;
 		$o[$k] = silo::default_options();
 		
 		update_option('silo_widgets', $o);
