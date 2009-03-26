@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Silo Widgets
-Plugin URI: http://www.semiologic.com/software/widgets/silo/
+Plugin URI: http://www.semiologic.com/software/silo/
 Description: Silo web design tools for sites built using static pages.
 Version: 2.3.3 RC
 Author: Denis de Bernardy
