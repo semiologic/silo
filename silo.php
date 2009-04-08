@@ -420,7 +420,7 @@ class silo
 		$classes = array();
 		
 		# process link
-		$link = $post_label[$item_id];
+		$link = ( $post_label[$item_id] ? $post_label[$item_id] : __('Untitled') );
 		
 		if ( ( $page_id != $item_id )
 			&& !( $is_blog_page && is_home() )
@@ -650,7 +650,7 @@ class silo
 		global $post_desc;
 		
 		# process link
-		$link = $post_label[$item_id];
+		$link = ( $post_label[$item_id] ? $post_label[$item_id] : __('Untitled') );
 		
 		$link = '<a href="' . htmlspecialchars(get_permalink($item_id)) . '">'
 			. $link
@@ -885,7 +885,7 @@ class silo
 		
 		# process link
 		$page = get_post($item_id);
-		$link = $page->post_title;
+		$link = ( $page->post_title ? $page->post_title : __('Untitled') );
 		
 		if ( $page_id != $item_id )
 		{
