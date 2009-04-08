@@ -998,14 +998,14 @@ class silo
 					}
 				}
 
-				if ( $files = glob(ABSPATH . 'wp-content/cache/silo-pages/*') )
+				if ( $files = glob(WP_CONTENT_DIR . '/cache/silo-pages/*') )
 				{
 					foreach ( $files as $file )
 					{
 						@unlink($file);
 					}
 					
-					@rmdir(ABSPATH . 'wp-content/cache/silo-pages');
+					@rmdir(WP_CONTENT_DIR . '/cache/silo-pages');
 				}
 			}	
 			else
