@@ -3,7 +3,7 @@
 Plugin Name: Silo Widgets
 Plugin URI: http://www.semiologic.com/software/silo/
 Description: Silo web design tools for sites built using static pages.
-Version: 2.3.3 RC
+Version: 3.0 alpha
 Author: Denis de Bernardy
 Author URI: http://www.getsemiologic.com
 */
@@ -18,44 +18,24 @@ http://www.mesoconcepts.com/license/
 **/
 
 
-define('silo_debug', false);
-
-class silo
-{
-	#
-	# init()
-	#
-
-	function init()
-	{
-		add_action('widgets_init', array('silo', 'widgetize'));
-
-		foreach ( array(
-				'save_post',
-				'delete_post',
-				'switch_theme',
-				'update_option_active_plugins',
-				'update_option_show_on_front',
-				'update_option_page_on_front',
-				'update_option_page_for_posts',
-				'update_option_sidebars_widgets',
-				'update_option_sem5_options',
-				'update_option_sem6_options',
-				'generate_rewrite_rules',
-				) as $hook)
-		{
-			add_action($hook, array('silo', 'clear_cache'));
-		}
-		
-		register_activation_hook(__FILE__, array('silo', 'clear_cache'));
-		register_deactivation_hook(__FILE__, array('silo', 'clear_cache'));
-	} # init()
+load_plugin_textdomain('silo', null, dirname(__FILE__) . '/lang');
 
 
-	#
-	# widgetize()
-	#
 
+
+
+
+
+class silo extends WP_Widget {
+	/**
+	 * widgetize()
+	 *
+	 * @return void
+	 **/
+
+	function widgetize() {
+	} # widgetize()
+	
 	function widgetize()
 	{
 		$options = silo::get_options();
@@ -951,10 +931,10 @@ class silo
 
 
 	#
-	# clear_cache()
+	# flush_cache()
 	#
 
-	function clear_cache($id = null)
+	function flush_cache($id = null)
 	{
 		global $wpdb;
 		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_key LIKE '_silo_widgets_cache%'");
@@ -962,7 +942,7 @@ class silo
 		update_option('silo_widgets_cache', array());
 		
 		return $id;
-	} # clear_cache()
+	} # flush_cache()
 	
 	
 	#
