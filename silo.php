@@ -193,7 +193,7 @@ class silo_map extends WP_Widget {
 		if ( $label === '' )
 			$label = __('Untitled', 'silo');
 		
-		$url = clean_url(get_permalink($page->ID));
+		$url = esc_url(get_permalink($page->ID));
 		
 		$ancestors = wp_cache_get($page_id, 'page_ancestors');
 		$children = wp_cache_get($page->ID, 'page_children');
