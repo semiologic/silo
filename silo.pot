@@ -1,0 +1,117 @@
+# Silo Widgets pot file.
+# Copyright (C) 2009 Mesoconcepts <http://www.mesoconcepts.com>
+# This file is distributed under the same license as the Silo Widgets package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 3.0\n"
+"Report-Msgid-Bugs-To: https://tickets.semiologic.com\n"
+"POT-Creation-Date: 2009-05-21 13:17+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: page-tags.php:33
+msgid "Tags used on this page:"
+msgstr ""
+
+#: page-tags.php:34 page-tags.php:75
+msgid "Add new tag"
+msgstr ""
+
+#: page-tags.php:67
+msgid "Separate tags with commas."
+msgstr ""
+
+#: page-tags.php:71
+msgid "Page Tags"
+msgstr ""
+
+#: page-tags.php:76
+msgid "Add"
+msgstr ""
+
+#: page-tags.php:81
+#, php-format
+msgid "Choose from the most used tags in %s"
+msgstr ""
+
+#: page-tags.php:81
+msgid "Post Tags"
+msgstr ""
+
+#: silo-admin.php:150 widget-utils/widget-utils.php:132
+msgid "Title"
+msgstr ""
+
+#: silo-admin.php:174
+msgid "Show Descriptions"
+msgstr ""
+
+#: silo.php:77
+msgid "Silo Maps"
+msgstr ""
+
+#: silo.php:102
+msgid ""
+"A site map. Insert this as an inline widget in a static page for best effect."
+msgstr ""
+
+#: silo.php:105
+msgid "Silo Map"
+msgstr ""
+
+#: silo.php:195 silo.php:504
+msgid "Untitled"
+msgstr ""
+
+#: silo.php:398
+msgid "Silo Stubs"
+msgstr ""
+
+#: silo.php:423
+msgid ""
+"Lists child pages and sub-child page in a section. Insert this as an inline "
+"widget in a static page."
+msgstr ""
+
+#: silo.php:426
+msgid "Silo Stub"
+msgstr ""
+
+#: widget-utils/widget-utils.php:31
+msgid "This Post In Widgets"
+msgstr ""
+
+#: widget-utils/widget-utils.php:50
+msgid "This Page In Widgets"
+msgstr ""
+
+#: widget-utils/widget-utils.php:117
+msgid ""
+"The following fields let you configure options shared by the following "
+"Semiologic widgets:"
+msgstr ""
+
+#: widget-utils/widget-utils.php:125
+msgid ""
+"It will <b>NOT</b> affect anything else. In particular WordPress's built-in "
+"Pages widget."
+msgstr ""
+
+#: widget-utils/widget-utils.php:144
+msgid "Description"
+msgstr ""
+
+#: widget-utils/widget-utils.php:169
+msgid "Exclude this entry from automatically generated lists"
+msgstr ""
+
+#: widget-utils/widget-utils.php:188
+msgid "... except for silo stub, silo map and smart links."
+msgstr ""
