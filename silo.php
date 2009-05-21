@@ -395,7 +395,7 @@ class silo_stub extends WP_Widget {
 
 	function widget_config_affected() {
 		echo '<li>'
-			. __('Silo Maps', 'silo')
+			. __('Silo Stubs', 'silo')
 			. '</li>' . "\n";
 	} # widget_config_affected()
 	
