@@ -20,6 +20,12 @@ http://www.mesoconcepts.com/license/
 
 load_plugin_textdomain('silo', null, dirname(__FILE__) . '/lang');
 
+if ( !defined('widget_utils_textdomain') )
+	define('widget_utils_textdomain', 'silo');
+
+if ( !defined('page_tags_textdomain') )
+	define('page_tags_textdomain', 'silo');
+
 if ( !defined('sem_widget_cache_debug') )
 	define('sem_widget_cache_debug', false);
 
