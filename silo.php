@@ -69,6 +69,11 @@ class silo_map extends WP_Widget {
 			include dirname(__FILE__) . '/widget-utils/widget-utils.php';
 		widget_utils::page_meta_boxes();
 		add_action('page_widget_config_affected', array('silo_map', 'widget_config_affected'));
+		
+		if ( !class_exists('page_tags') )
+			include dirname(__FILE__) . '/page-tags/page-tags.php';
+		
+		page_tags::meta_boxes();
 	} # editor_init()
 	
 	
