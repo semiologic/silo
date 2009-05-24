@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.0\n"
 "Report-Msgid-Bugs-To: https://tickets.semiologic.com\n"
-"POT-Creation-Date: 2009-05-21 14:18+0200\n"
+"POT-Creation-Date: 2009-05-24 16:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,73 +45,71 @@ msgstr ""
 msgid "Choose from the most used tags in %s"
 msgstr ""
 
-#: silo-admin.php:150 widget-utils/widget-utils.php:131
-msgid "Title"
-msgstr ""
-
-#: silo-admin.php:174
-msgid "Show Descriptions"
-msgstr ""
-
-#: silo.php:88
+#: silo.php:90
 msgid "Silo Maps"
 msgstr ""
 
-#: silo.php:113
+#: silo.php:115
 msgid ""
 "A site map. Insert this as an inline widget in a static page for best effect."
 msgstr ""
 
-#: silo.php:116
+#: silo.php:118
 msgid "Silo Map"
 msgstr ""
 
-#: silo.php:206 silo.php:515
+#: silo.php:208 silo.php:517
 msgid "Untitled"
 msgstr ""
 
-#: silo.php:409
+#: silo.php:411
 msgid "Silo Stubs"
 msgstr ""
 
-#: silo.php:434
+#: silo.php:436
 msgid ""
 "Lists child pages and sub-child page in a section. Insert this as an inline "
 "widget in a static page."
 msgstr ""
 
-#: silo.php:437
+#: silo.php:439
 msgid "Silo Stub"
 msgstr ""
 
-#: widget-utils/widget-utils.php:28
+#: widget-utils/widget-utils.php:27
 msgid "This Post In Widgets"
 msgstr ""
 
-#: widget-utils/widget-utils.php:47
+#: widget-utils/widget-utils.php:46
 msgid "This Page In Widgets"
 msgstr ""
 
-#: widget-utils/widget-utils.php:114
-msgid ""
-"The following fields let you configure options shared by the following "
-"Semiologic widgets:"
+#: widget-utils/widget-utils.php:113
+msgid "The following fields let you configure options shared by:"
 msgstr ""
 
-#: widget-utils/widget-utils.php:123
+#: widget-utils/widget-utils.php:121
 msgid ""
-"It will NOT affect anything else. In particular WordPress' built-in Pages "
-"widget."
+"It will <b>NOT</b> affect anything else. In particular WordPress's built-in "
+"Pages widget."
 msgstr ""
 
-#: widget-utils/widget-utils.php:143
+#: widget-utils/widget-utils.php:128
+msgid "Title"
+msgstr ""
+
+#: widget-utils/widget-utils.php:140
 msgid "Description"
 msgstr ""
 
-#: widget-utils/widget-utils.php:168
+#: widget-utils/widget-utils.php:151
+msgid "Exclude"
+msgstr ""
+
+#: widget-utils/widget-utils.php:163
 msgid "Exclude this entry from automatically generated lists"
 msgstr ""
 
-#: widget-utils/widget-utils.php:187
-msgid "... except for silo stub, silo map and smart links."
+#: widget-utils/widget-utils.php:182
+msgid "... except for silo stubs, silo maps and smart links."
 msgstr ""
