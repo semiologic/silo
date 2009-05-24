@@ -3,7 +3,7 @@
 Plugin Name: Silo Widgets
 Plugin URI: http://www.semiologic.com/software/silo/
 Description: Silo web design tools for sites built using static pages.
-Version: 3.0 beta
+Version: 3.0 RC
 Author: Denis de Bernardy
 Author URI: http://www.getsemiologic.com
 Text Domain: silo-info
@@ -33,14 +33,72 @@ if ( !defined('sem_widget_cache_debug') )
 
 
 /**
+ * silo_widgets
+ *
+ * @package Silo Widgets
+ **/
+
+add_action('widgets_init', array('silo_widgets', 'widgets_init'));
+
+foreach ( array('page.php', 'page-new.php') as $hook )
+	add_action('load-' . $hook, array('silo_widgets', 'editor_init'));
+
+class silo_widgets {
+	/**
+	 * editor_init()
+	 *
+	 * @return void
+	 **/
+
+	function editor_init() {
+		if ( !class_exists('widget_utils') )
+			include dirname(__FILE__) . '/widget-utils/widget-utils.php';
+		
+		widget_utils::page_meta_boxes();
+		add_action('page_widget_config_affected', array('widget_utils', 'widget_config_affected'));
+		
+		if ( !class_exists('page_tags') )
+			include dirname(__FILE__) . '/page-tags/page-tags.php';
+		
+		page_tags::meta_boxes();
+	} # editor_init()
+	
+	
+	/**
+	 * widget_config_affected()
+	 *
+	 * @return void
+	 **/
+
+	function widget_config_affected() {
+		echo '<li>'
+			. __('Silo Stubs', 'silo')
+			. '</li>' . "\n";
+		echo '<li>'
+			. __('Silo Maps', 'silo')
+			. '</li>' . "\n";
+	} # widget_config_affected()
+	
+	
+	/**
+	 * widgets_init()
+	 *
+	 * @return void
+	 **/
+
+	function widgets_init() {
+		register_widget('silo_map');
+		register_widget('silo_stub');
+	} # widgets_init()
+} # silo_widgets
+
+
+/**
  * silo_map
  *
  * @package Silo Widgets
  **/
 
-add_action('widgets_init', array('silo_map', 'widgets_init'));
-foreach ( array('page.php', 'page-new.php') as $hook )
-	add_action('load-' . $hook, array('silo_map', 'editor_init'));
 foreach ( array(
 		'save_post',
 		'delete_post',
@@ -60,49 +118,6 @@ register_activation_hook(__FILE__, array('silo_map', 'flush_cache'));
 register_deactivation_hook(__FILE__, array('silo_map', 'flush_cache'));
 
 class silo_map extends WP_Widget {
-	/**
-	 * editor_init()
-	 *
-	 * @return void
-	 **/
-
-	function editor_init() {
-		if ( !class_exists('widget_utils') )
-			include dirname(__FILE__) . '/widget-utils/widget-utils.php';
-		widget_utils::page_meta_boxes();
-		add_action('page_widget_config_affected', array('silo_map', 'widget_config_affected'));
-		
-		if ( !class_exists('page_tags') )
-			include dirname(__FILE__) . '/page-tags/page-tags.php';
-		
-		page_tags::meta_boxes();
-	} # editor_init()
-	
-	
-	/**
-	 * widget_config_affected()
-	 *
-	 * @return void
-	 **/
-
-	function widget_config_affected() {
-		echo '<li>'
-			. __('Silo Maps', 'silo')
-			. '</li>' . "\n";
-	} # widget_config_affected()
-	
-	
-	/**
-	 * widgets_init()
-	 *
-	 * @return void
-	 **/
-
-	function widgets_init() {
-		register_widget('silo_map');
-	} # widgets_init()
-	
-	
 	/**
 	 * silo_map()
 	 *
@@ -364,9 +379,6 @@ class silo_map extends WP_Widget {
  * @package Silo Widgets
  **/
 
-add_action('widgets_init', array('silo_stub', 'widgets_init'));
-foreach ( array('page.php', 'page-new.php') as $hook )
-	add_action('load-' . $hook, array('silo_stub', 'editor_init'));
 foreach ( array(
 		'save_post',
 		'delete_post',
@@ -386,44 +398,6 @@ register_activation_hook(__FILE__, array('silo_stub', 'flush_cache'));
 register_deactivation_hook(__FILE__, array('silo_stub', 'flush_cache'));
 
 class silo_stub extends WP_Widget {
-	/**
-	 * editor_init()
-	 *
-	 * @return void
-	 **/
-
-	function editor_init() {
-		if ( !class_exists('widget_utils') )
-			include dirname(__FILE__) . '/widget-utils/widget-utils.php';
-		widget_utils::page_meta_boxes();
-		add_action('page_widget_config_affected', array('silo_stub', 'widget_config_affected'));
-	} # editor_init()
-	
-	
-	/**
-	 * widget_config_affected()
-	 *
-	 * @return void
-	 **/
-
-	function widget_config_affected() {
-		echo '<li>'
-			. __('Silo Stubs', 'silo')
-			. '</li>' . "\n";
-	} # widget_config_affected()
-	
-	
-	/**
-	 * widgets_init()
-	 *
-	 * @return void
-	 **/
-
-	function widgets_init() {
-		register_widget('silo_stub');
-	} # widgets_init()
-	
-	
 	/**
 	 * silo_stub()
 	 *
