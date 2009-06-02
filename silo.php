@@ -266,9 +266,9 @@ class silo_map extends WP_Widget {
 		echo '<li class="' . implode(' ', $classes) . '">'
 			. $link;
 		
-		$descr = get_post_meta($page->ID, '_widgets_desc', true);
+		$descr = trim(get_post_meta($page->ID, '_widgets_desc', true));
 		if ( $descr )
-			echo "\n" . wpautop($descr);
+			echo "\n\n" . wpautop($descr);
 		
 		if ( $children ) {
 			echo "\n"
@@ -535,11 +535,11 @@ class silo_stub extends WP_Widget {
 			echo '<h2 class="' . implode(' ', $classes) . '">'
 				. $link
 				. '</h2>' . "\n";
-
-			$descr = get_post_meta($page->ID, '_widgets_desc', true);
+			
+			$descr = trim(get_post_meta($page->ID, '_widgets_desc', true));
 			if ( $descr )
-				echo "\n" . wpautop($descr);
-
+				echo "\n" . wpautop($descr) . "\n";
+			
 			if ( $children ) {
 				echo "\n"
 					. '<ul>' . "\n";
@@ -551,9 +551,9 @@ class silo_stub extends WP_Widget {
 			echo '<li class="' . implode(' ', $classes) . '">'
 				. '<h3>' . $link . '</h3>';
 
-			$descr = get_post_meta($page->ID, '_widgets_desc', true);
+			$descr = trim(get_post_meta($page->ID, '_widgets_desc', true));
 			if ( $descr )
-				echo "\n" . wpautop($descr);
+				echo "\n\n" . wpautop($descr);
 			
 			echo '</li>' . "\n";
 		}
