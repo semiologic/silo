@@ -333,18 +333,6 @@ class silo_map extends WP_Widget {
 	
 	
 	/**
-	 * form()
-	 *
-	 * @return string 'noform'
-	 **/
-
-	function form($instance) {
-		echo '<p>' . __('There are no options for this widget.') . '</p>';
-		return 'noform';
-	} # form()
-	
-	
-	/**
 	 * flush_cache()
 	 *
 	 * @param mixed $in
@@ -568,18 +556,6 @@ class silo_stub extends WP_Widget {
 			echo '</li>' . "\n";
 		}
 	} # display_page()
-	
-	
-	/**
-	 * form()
-	 *
-	 * @return string 'noform'
-	 **/
-
-	function form($instance) {
-		echo '<p>' . __('There are no options for this widget.') . '</p>';
-		return 'noform';
-	} # form()
 	
 	
 	/**
