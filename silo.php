@@ -146,7 +146,7 @@ class silo_map extends WP_Widget {
 		extract($args, EXTR_SKIP);
 		extract($instance, EXTR_SKIP);
 		
-		if ( is_admin() )
+		if ( is_admin() || !in_the_loop() )
 			return;
 		
 		if ( is_page() ) {
@@ -333,6 +333,18 @@ class silo_map extends WP_Widget {
 	
 	
 	/**
+	 * form()
+	 *
+	 * @return string 'noform'
+	 **/
+
+	function form($instance) {
+		echo '<p>' . __('There are no options for this widget.') . '</p>';
+		return 'noform';
+	} # form()
+	
+	
+	/**
 	 * flush_cache()
 	 *
 	 * @param mixed $in
@@ -425,7 +437,7 @@ class silo_stub extends WP_Widget {
 		extract($args, EXTR_SKIP);
 		extract($instance, EXTR_SKIP);
 		
-		if ( is_admin() || !is_page() )
+		if ( is_admin() || !in_the_loop() || !is_page() )
 			return;
 		
 		global $wp_the_query;
@@ -556,6 +568,18 @@ class silo_stub extends WP_Widget {
 			echo '</li>' . "\n";
 		}
 	} # display_page()
+	
+	
+	/**
+	 * form()
+	 *
+	 * @return string 'noform'
+	 **/
+
+	function form($instance) {
+		echo '<p>' . __('There are no options for this widget.') . '</p>';
+		return 'noform';
+	} # form()
 	
 	
 	/**
