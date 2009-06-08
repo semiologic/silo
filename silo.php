@@ -216,9 +216,9 @@ class silo_map extends WP_Widget {
 		}
 		
 		$label = get_post_meta($page->ID, '_widgets_label', true);
-		if ( $label === '' )
+		if ( (string) $label === '' )
 			$label = $page->post_title;
-		if ( $label === '' )
+		if ( (string) $label === '' )
 			$label = __('Untitled', 'silo');
 		
 		$url = esc_url(get_permalink($page->ID));
@@ -483,9 +483,9 @@ class silo_stub extends WP_Widget {
 		}
 		
 		$label = get_post_meta($page->ID, '_widgets_label', true);
-		if ( $label === '' )
+		if ( (string) $label === '' )
 			$label = $page->post_title;
-		if ( $label === '' )
+		if ( (string) $label === '' )
 			$label = __('Untitled', 'silo');
 		
 		$url = esc_url(get_permalink($page->ID));
