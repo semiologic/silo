@@ -6,7 +6,7 @@ Description: Silo web design tools for sites built using static pages.
 Version: 3.0 RC
 Author: Denis de Bernardy
 Author URI: http://www.getsemiologic.com
-Text Domain: silo-info
+Text Domain: silo
 Domain Path: /lang
 */
 
