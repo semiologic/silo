@@ -574,12 +574,16 @@ class silo_stub extends WP_Widget {
 			$page = null;
 		}
 		
-		if ( !is_page() && get_option('show_on_front') == 'page' ) {
-			$front_page_id = (int) get_option('page_for_posts');
+		if ( get_option('show_on_front') == 'page' ) {
+			$front_page_id = (int) get_option('page_on_front');
 			$front_page = get_page($front_page_id);
+			$blog_page_id = (int) get_option('page_for_posts');
+			$blog_page = $blog_page_id ? get_page($blog_page_id) : null;
 		} else {
 			$front_page_id = 0;
 			$front_page = null;
+			$blog_page_id = 0;
+			$blog_page = null;
 		}
 		
 		$ancestors = $page_id ? wp_cache_get($page_id, 'page_ancestors') : array();
@@ -604,12 +608,25 @@ class silo_stub extends WP_Widget {
 			wp_cache_set($front_page_id, $front_page_ancestors, 'page_ancestors');
 		}
 		
-		$parent_ids = array_merge($ancestors, $front_page_ancestors);
+		$blog_page_ancestors = $blog_page_id ? wp_cache_get($blog_page_id, 'page_ancestors') : array();
+		if ( $blog_page_ancestors === false ) {
+			$blog_page_ancestors = array();
+			while ( $blog_page && $blog_page->post_parent != 0 ) {
+				$blog_page_ancestors[] = (int) $blog_page->post_parent;
+				$blog_page = get_page($blog_page->post_parent);
+			}
+			$blog_page_ancestors = array_reverse($blog_page_ancestors);
+			wp_cache_set($blog_page_id, $blog_page_ancestors, 'page_ancestors');
+		}
+		
+		$parent_ids = array_merge($ancestors, $front_page_ancestors, $blog_page_ancestors);
 		array_unshift($parent_ids, 0);
 		if ( $page_id )
 			$parent_ids[] = $page_id;
 		if ( $front_page_id )
 			$parent_ids[] = $front_page_id;
+		if ( $blog_page_id )
+			$parent_ids[] = $blog_page_id;
 		
 		$cached = true;
 		foreach ( $parent_ids as $parent_id ) {
@@ -627,10 +644,10 @@ class silo_stub extends WP_Widget {
 			SELECT	posts.ID
 			FROM	$wpdb->posts as posts
 			WHERE	posts.post_type = 'page'
-			AND		posts.post_parent IN ( 0, $page_id, $front_page_id )
+			AND		posts.post_parent IN ( 0, $page_id, $front_page_id, $blog_page_id )
 			");
 		
-		$parent_ids = array_merge($parent_ids, $roots, array($page_id, $front_page_id));
+		$parent_ids = array_merge($parent_ids, $roots, array($page_id, $front_page_id, $blog_page_id));
 		$parent_ids = array_unique($parent_ids);
 		$parent_ids = array_map('intval', $parent_ids);
 		
@@ -683,9 +700,6 @@ class silo_stub extends WP_Widget {
 		if ( is_page() ) {
 			global $wp_the_query;
 			$page_id = (int) $wp_the_query->get_queried_object_id();
-			$page = get_page($page_id);
-		} elseif ( get_option('show_on_front') == 'page' ) {
-			$page_id = (int) get_option('page_for_posts');
 			$page = get_page($page_id);
 		} else {
 			$page_id = 0;
