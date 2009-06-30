@@ -55,7 +55,7 @@ class silo_widgets {
 			include dirname(__FILE__) . '/widget-utils/widget-utils.php';
 		
 		widget_utils::page_meta_boxes();
-		add_action('page_widget_config_affected', array('widget_utils', 'widget_config_affected'));
+		add_action('page_widget_config_affected', array('silo_widgets', 'widget_config_affected'));
 		
 		if ( !class_exists('page_tags') )
 			include dirname(__FILE__) . '/page-tags/page-tags.php';
