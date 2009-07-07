@@ -162,7 +162,7 @@ class silo_map extends WP_Widget {
 			$o = get_transient($cache_id);
 		}
 		
-		if ( !sem_widget_cache_debug && $o ) {
+		if ( !sem_widget_cache_debug && !is_preview() && $o ) {
 			echo $o;
 			return;
 		}
@@ -186,10 +186,12 @@ class silo_map extends WP_Widget {
 		
 		$o = ob_get_clean();
 		
-		if ( is_page() ) {
-			update_post_meta($page_id, $cache_id, $o);
-		} else {
-			set_transient($cache_id, $o);
+		if ( !is_preview() ) {
+			if ( is_page() ) {
+				update_post_meta($page_id, $cache_id, $o);
+			} else {
+				set_transient($cache_id, $o);
+			}
 		}
 		
 		echo $o;
