@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.0\n"
 "Report-Msgid-Bugs-To: https://tickets.semiologic.com\n"
-"POT-Creation-Date: 2009-06-23 17:19+0200\n"
+"POT-Creation-Date: 2009-07-07 23:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,26 +53,26 @@ msgstr ""
 msgid "Silo Maps"
 msgstr ""
 
-#: silo.php:130
+#: silo.php:133
 msgid ""
 "A site map. Insert this as an inline widget in a static page for best effect."
 msgstr ""
 
-#: silo.php:133
+#: silo.php:136
 msgid "Silo Map"
 msgstr ""
 
-#: silo.php:222 silo.php:489
+#: silo.php:227 silo.php:497
 msgid "Untitled"
 msgstr ""
 
-#: silo.php:409
+#: silo.php:417
 msgid ""
 "Lists child pages and sub-child page in a section. Insert this as an inline "
 "widget in a static page."
 msgstr ""
 
-#: silo.php:412
+#: silo.php:420
 msgid "Silo Stub"
 msgstr ""
 
