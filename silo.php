@@ -113,7 +113,7 @@ foreach ( array(
 		'generate_rewrite_rules',
 		
 		'flush_cache',
-		'update_option_db_version',
+		'after_db_upgrade_version',
 		) as $hook)
 	add_action($hook, array('silo_map', 'flush_cache'));
 
@@ -397,7 +397,7 @@ foreach ( array(
 		'generate_rewrite_rules',
 		
 		'flush_cache',
-		'update_option_db_version',
+		'after_db_upgrade_version',
 		) as $hook)
 	add_action($hook, array('silo_stub', 'flush_cache'));
 
