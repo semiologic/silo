@@ -20,7 +20,7 @@ http://www.mesoconcepts.com/license/
 **/
 
 
-load_plugin_textdomain('silo', null, dirname(__FILE__) . '/lang');
+load_plugin_textdomain('silo', false, dirname(plugin_basename(__FILE__)) . '/lang');
 
 if ( !defined('widget_utils_textdomain') )
 	define('widget_utils_textdomain', 'silo');
@@ -113,7 +113,7 @@ foreach ( array(
 		'generate_rewrite_rules',
 		
 		'flush_cache',
-		'after_db_upgrade_version',
+		'after_db_upgrade',
 		) as $hook)
 	add_action($hook, array('silo_map', 'flush_cache'));
 
@@ -130,7 +130,7 @@ class silo_map extends WP_Widget {
 	function silo_map() {
 		$widget_ops = array(
 			'classname' => 'silo_map',
-			'description' => __("A site map. Insert this as an inline widget in a static page for best effect.", 'silo'),
+			'description' => __('A site map. Insert this as an inline widget in a static page for best effect.', 'silo'),
 			);
 		
 		$this->WP_Widget('silo_map', __('Silo Map', 'silo'), $widget_ops);
@@ -305,7 +305,6 @@ class silo_map extends WP_Widget {
 			AND		posts.post_status = 'publish'
 			ORDER BY posts.menu_order, posts.post_title
 			");
-		update_post_cache($pages);
 		
 		$children = array();
 		$to_cache = array();
@@ -317,7 +316,6 @@ class silo_map extends WP_Widget {
 			$to_cache[] = $page->ID;
 		}
 		
-		update_postmeta_cache($to_cache);
 		wp_cache_set('page_ids', $to_cache, 'widget');
 		
 		$all_ancestors = array();
@@ -334,6 +332,15 @@ class silo_map extends WP_Widget {
 			
 			wp_cache_set($child_id, $parent_ids, 'page_ancestors');
 		}
+		
+		foreach ( array_keys($pages) as $k ) {
+			$ancestors = wp_cache_get($pages[$k]->ID, 'page_ancestors');
+			array_shift($ancestors);
+			$pages[$k]->ancestors = $ancestors;
+		}
+
+		update_post_cache($pages);
+		update_postmeta_cache($to_cache);
 	} # cache_pages()
 	
 	
@@ -397,7 +404,7 @@ foreach ( array(
 		'generate_rewrite_rules',
 		
 		'flush_cache',
-		'after_db_upgrade_version',
+		'after_db_upgrade',
 		) as $hook)
 	add_action($hook, array('silo_stub', 'flush_cache'));
 
@@ -414,7 +421,7 @@ class silo_stub extends WP_Widget {
 	function silo_stub() {
 		$widget_ops = array(
 			'classname' => 'silo_stub',
-			'description' => __("Lists child pages and sub-child page in a section. Insert this as an inline widget in a static page.", 'silo'),
+			'description' => __('Lists child pages and sub-child page in a section. Insert this as an inline widget in a static page.', 'silo'),
 			);
 		
 		$this->WP_Widget('silo_stub', __('Silo Stub', 'silo'), $widget_ops);
@@ -441,7 +448,7 @@ class silo_stub extends WP_Widget {
 		$cache_id = "_$widget_id";
 		$o = get_post_meta($page_id, $cache_id, true);
 		
-		if ( !sem_widget_cache_debug && $o ) {
+		if ( !sem_widget_cache_debug && !is_preview() && $o ) {
 			echo $o;
 			return;
 		}
@@ -462,7 +469,8 @@ class silo_stub extends WP_Widget {
 		
 		$o = ob_get_clean();
 		
-		update_post_meta($page_id, $cache_id, $o);
+		if ( !is_preview() )
+			update_post_meta($page_id, $cache_id, $o);
 		
 		echo $o;
 	} # widget()
@@ -667,7 +675,6 @@ class silo_stub extends WP_Widget {
 			AND		posts.post_parent IN ( " . implode(',', $parent_ids) . " )
 			ORDER BY posts.menu_order, posts.post_title
 			");
-		update_post_cache($pages);
 		
 		$children = array();
 		$to_cache = array();
@@ -679,8 +686,6 @@ class silo_stub extends WP_Widget {
 			$children[$page->post_parent][] = $page->ID;
 			$to_cache[] = $page->ID;
 		}
-
-		update_postmeta_cache($to_cache);
 		
 		$all_ancestors = array();
 		
@@ -695,6 +700,15 @@ class silo_stub extends WP_Widget {
 				$parent_ids = array_merge($all_ancestors[$parent_ids[0]], $parent_ids);
 			wp_cache_set($child_id, $parent_ids, 'page_ancestors');
 		}
+		
+		foreach ( array_keys($pages) as $k ) {
+			$ancestors = wp_cache_get($pages[$k]->ID, 'page_ancestors');
+			array_shift($ancestors);
+			$pages[$k]->ancestors = $ancestors;
+		}
+
+		update_post_cache($pages);
+		update_postmeta_cache($to_cache);
 	} # cache_pages()
 	
 	
