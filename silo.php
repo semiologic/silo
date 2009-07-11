@@ -272,7 +272,7 @@ class silo_map extends WP_Widget {
 		
 		$descr = trim(get_post_meta($page->ID, '_widgets_desc', true));
 		if ( $descr )
-			echo "\n\n" . wpautop($descr);
+			echo "\n\n" . wpautop(apply_filters('widget_text', $descr));
 		
 		if ( $children ) {
 			echo "\n"
@@ -552,7 +552,7 @@ class silo_stub extends WP_Widget {
 			
 			$descr = trim(get_post_meta($page->ID, '_widgets_desc', true));
 			if ( $descr )
-				echo "\n" . wpautop($descr) . "\n";
+				echo "\n" . wpautop(apply_filters('widget_text', $descr)) . "\n";
 			
 			if ( $children ) {
 				echo "\n"
@@ -567,7 +567,7 @@ class silo_stub extends WP_Widget {
 
 			$descr = trim(get_post_meta($page->ID, '_widgets_desc', true));
 			if ( $descr )
-				echo "\n\n" . wpautop($descr);
+				echo "\n\n" . wpautop(apply_filters('widget_text', $descr));
 			
 			echo '</li>' . "\n";
 		}
