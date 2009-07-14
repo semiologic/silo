@@ -358,7 +358,9 @@ class silo_map extends WP_Widget {
 		
 		if ( !$widgets )
 			return $in;
+		
 		unset($widgets['_multiwidget']);
+		unset($widgets['number']);
 		
 		foreach ( array_keys($widgets) as $widget_id )
 			$cache_ids[] = "silo_map-$widget_id";
@@ -786,7 +788,9 @@ class silo_stub extends WP_Widget {
 		
 		if ( !$widgets )
 			return $in;
+		
 		unset($widgets['_multiwidget']);
+		unset($widgets['number']);
 		
 		foreach ( array_keys($widgets) as $widget_id )
 			$cache_ids[] = "silo_stub-$widget_id";
