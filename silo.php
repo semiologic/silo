@@ -261,7 +261,7 @@ class silo_map extends WP_Widget {
 					. $link
 					. '</a>';
 			
-			$link_classes = array(sanitize_html_class('nav_page-' . $page->post_name, 'nav_page-' . $page->ID));
+			$link_classes = array('nav_page-' . sanitize_html_class($page->post_name, $page->ID));
 			if ( $page->ID == $page_id || in_array($page->ID, $ancestors) )
 				$link_classes[] = 'nav_active';
 			$link = '<span class="' . implode(' ', $link_classes) . '">' . $link . '</span>';
