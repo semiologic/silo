@@ -425,6 +425,9 @@ class silo_stub extends WP_Widget {
 			'classname' => 'silo_stub',
 			'description' => __('Lists child pages and sub-child page in a section. Insert this as an inline widget in a static page.', 'silo'),
 			);
+		$control_ops = array(
+			'width' => 460,
+			);
 		
 		$this->WP_Widget('silo_stub', __('Silo Stub', 'silo'), $widget_ops);
 	} # silo_stub()
@@ -443,14 +446,20 @@ class silo_stub extends WP_Widget {
 		$instance = wp_parse_args($instance, silo_stub::defaults());
 		extract($instance, EXTR_SKIP);
 		
-		if ( is_admin() && !$deep ) {
+		if ( is_admin() ) {
+			$formats = array(
+				'deep' => __('Deep', 'silo'),
+				'hybrid' => __('Hybrid', 'silo'),
+				'shallow' => __('Shallow', 'silo'),
+				);
+			
 			echo $before_widget
-				. $before_title . __('Shallow', 'silo') . $after_title
+				. $before_title . $formats[$format] . $after_title
 				. $after_widget;
 			return;
 		}
 		
-		if ( is_admin() || !in_the_loop() || !is_page() )
+		if ( !in_the_loop() || !is_page() )
 			return;
 		
 		global $wp_the_query;
@@ -462,6 +471,9 @@ class silo_stub extends WP_Widget {
 			echo $o;
 			return;
 		}
+		
+		$deep = $format != 'shallow';
+		$shallow = $format != 'deep';
 		
 		silo_stub::cache_pages();
 		if ( $deep )
@@ -607,8 +619,9 @@ class silo_stub extends WP_Widget {
 
 	function update($new_instance, $old_instance) {
 		$instance = silo_stub::defaults();
-		$instance['deep'] = isset($new_instance['deep']);
-		$instance['shallow'] = isset($new_instance['shallow']);
+		$instance['format'] = in_array($new_instance['format'], array('deep', 'hybrid', 'shallow'))
+			? $new_instance['format']
+			: 'deep';
 		return $instance;
 	} # update()
 	
@@ -624,24 +637,36 @@ class silo_stub extends WP_Widget {
 		$instance = wp_parse_args($instance, silo_stub::defaults());
 		extract($instance, EXTR_SKIP);
 		
+		echo '<h3>' . __('Format', 'silo') . '</h3>' . "\n";
+		
 		echo '<p>'
 			. '<label>'
-			. '<input type="checkbox"'
-				. ' name="' . $this->get_field_name('deep') . '"'
-				. checked($deep, true, false)
+			. '<input type="radio"'
+				. ' name="' . $this->get_field_name('format') . '" value="deep"'
+				. checked($format, 'deep', false)
 				. ' />'
 			. '&nbsp;'
-			. __('Display sub-child pages, in addition to immediate child pages.', 'silo') . "\n"
+			. __('Display child pages as sections, and sub-child pages as lists within these sections. Even if there are no sub-child pages.', 'silo') . "\n"
 			. '</p>' . "\n";
 		
 		echo '<p>'
 			. '<label>'
-			. '<input type="checkbox"'
-				. ' name="' . $this->get_field_name('shallow') . '"'
-				. checked($shallow, true, false)
+			. '<input type="radio"'
+				. ' name="' . $this->get_field_name('format') . '" value="hybrid"'
+				. checked($format, 'hybrid', false)
 				. ' />'
 			. '&nbsp;'
-			. __('Format as a simple list of child pages, when there are no sub-child pages.', 'silo') . "\n"
+			. __('Display child pages as sections, and sub-child pages as lists within these sections. If there are no sub-child pages, display a list of child pages instead.', 'silo') . "\n"
+			. '</p>' . "\n";
+		
+		echo '<p>'
+			. '<label>'
+			. '<input type="radio"'
+				. ' name="' . $this->get_field_name('format') . '" value="shallow"'
+				. checked($format, 'shallow', false)
+				. ' />'
+			. '&nbsp;'
+			. __('Display a list of child pages. Don\'t display sub-child pages.', 'silo') . "\n"
 			. '</p>' . "\n";
 	} # form()
 	
@@ -654,8 +679,7 @@ class silo_stub extends WP_Widget {
 
 	function defaults() {
 		return array(
-			'deep' => true,
-			'shallow' => false,
+			'format' => 'deep',
 			);
 	} # defaults()
 	
