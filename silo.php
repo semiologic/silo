@@ -469,6 +469,11 @@ class silo_stub extends WP_Widget {
 		
 		$root_ids = wp_cache_get($page_id, 'page_children');
 		
+		foreach ( $root_ids as $root_id )
+			$shallow &= !wp_cache_get($root_id, 'page_children');
+		
+		$deep &= !$shallow;
+		
 		ob_start();
 		
 		echo $before_widget;
@@ -557,7 +562,7 @@ class silo_stub extends WP_Widget {
 					. $link
 					. '</a>';
 			
-			$link_classes = array('nav_page-' . $page->ID);
+			$link_classes = array('nav_page-' . sanitize_html_class($page->post_name, $page->ID));
 			if ( $page->ID == $page_id || in_array($page->ID, $ancestors) )
 				$link_classes[] = 'nav_active';
 			$link = '<span class="' . implode(' ', $link_classes) . '">' . $link . '</span>';
@@ -603,6 +608,7 @@ class silo_stub extends WP_Widget {
 	function update($new_instance, $old_instance) {
 		$instance = silo_stub::defaults();
 		$instance['deep'] = isset($new_instance['deep']);
+		$instance['shallow'] = isset($new_instance['shallow']);
 		return $instance;
 	} # update()
 	
@@ -625,7 +631,17 @@ class silo_stub extends WP_Widget {
 				. checked($deep, true, false)
 				. ' />'
 			. '&nbsp;'
-			. __('Display sub-child pages, in addition to immediate child pages', 'silo') . "\n"
+			. __('Display sub-child pages, in addition to immediate child pages.', 'silo') . "\n"
+			. '</p>' . "\n";
+		
+		echo '<p>'
+			. '<label>'
+			. '<input type="checkbox"'
+				. ' name="' . $this->get_field_name('shallow') . '"'
+				. checked($shallow, true, false)
+				. ' />'
+			. '&nbsp;'
+			. __('Format as a simple list of child pages, when there are no sub-child pages.', 'silo') . "\n"
 			. '</p>' . "\n";
 	} # form()
 	
@@ -639,6 +655,7 @@ class silo_stub extends WP_Widget {
 	function defaults() {
 		return array(
 			'deep' => true,
+			'shallow' => false,
 			);
 	} # defaults()
 	

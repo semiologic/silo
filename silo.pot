@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.0\n"
 "Report-Msgid-Bugs-To: https://tickets.semiologic.com\n"
-"POT-Creation-Date: 2009-07-29 11:13+0200\n"
+"POT-Creation-Date: 2009-07-29 11:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Silo Map"
 msgstr ""
 
-#: silo.php:227 silo.php:523
+#: silo.php:227 silo.php:528
 msgid "Untitled"
 msgstr ""
 
@@ -88,8 +88,13 @@ msgstr ""
 msgid "Shallow"
 msgstr ""
 
-#: silo.php:628
-msgid "Display sub-child pages, in addition to immediate child pages"
+#: silo.php:634
+msgid "Display sub-child pages, in addition to immediate child pages."
+msgstr ""
+
+#: silo.php:644
+msgid ""
+"Format as a simple list of child pages, when there are no sub-child pages."
 msgstr ""
 
 #: widget-utils/widget-utils.php:27
