@@ -440,7 +440,15 @@ class silo_stub extends WP_Widget {
 
 	function widget($args, $instance) {
 		extract($args, EXTR_SKIP);
+		$instance = wp_parse_args($instance, silo_stub::defaults());
 		extract($instance, EXTR_SKIP);
+		
+		if ( is_admin() && !$deep ) {
+			echo $before_widget
+				. $before_title . __('Shallow', 'silo') . $after_title
+				. $after_widget;
+			return;
+		}
 		
 		if ( is_admin() || !in_the_loop() || !is_page() )
 			return;
@@ -456,7 +464,8 @@ class silo_stub extends WP_Widget {
 		}
 		
 		silo_stub::cache_pages();
-		silo_stub::cache_extra_pages();
+		if ( $deep )
+			silo_stub::cache_extra_pages();
 		
 		$root_ids = wp_cache_get($page_id, 'page_children');
 		
@@ -464,8 +473,14 @@ class silo_stub extends WP_Widget {
 		
 		echo $before_widget;
 		
+		if ( !$deep )
+			echo '<ul>' . "\n";
+		
 		foreach ( $root_ids as $root_id )
-			silo_stub::display_page($root_id);
+			silo_stub::display_page($root_id, $deep);
+		
+		if ( !$deep )
+			echo '</ul>' . "\n";
 		
 		echo $after_widget;
 		
@@ -482,10 +497,11 @@ class silo_stub extends WP_Widget {
 	 * display_page()
 	 *
 	 * @param int $ref
+	 * @param bool $deep
 	 * @return void
 	 **/
 
-	function display_page($ref) {
+	function display_page($ref, $deep = false) {
 		$page = get_page($ref);
 		
 		if ( !$page || get_post_meta($page->ID, '_widgets_exclude', true) && !get_post_meta($page->ID, '_widgets_exception', true) )
@@ -547,7 +563,7 @@ class silo_stub extends WP_Widget {
 			$link = '<span class="' . implode(' ', $link_classes) . '">' . $link . '</span>';
 		}
 		
-		if ( $page->post_parent == $page_id ) {
+		if ( $page->post_parent == $page_id && $deep ) {
 			echo '<h2 class="' . implode(' ', $classes) . '">'
 				. $link
 				. '</h2>' . "\n";
@@ -574,6 +590,57 @@ class silo_stub extends WP_Widget {
 			echo '</li>' . "\n";
 		}
 	} # display_page()
+	
+	
+	/**
+	 * update()
+	 *
+	 * @param array $new_instance new widget options
+	 * @param array $old_instance old widget options
+	 * @return array $instance
+	 **/
+
+	function update($new_instance, $old_instance) {
+		$instance = silo_stub::defaults();
+		$instance['deep'] = isset($new_instance['deep']);
+		return $instance;
+	} # update()
+	
+	
+	/**
+	 * form()
+	 *
+	 * @param array $instance widget options
+	 * @return void
+	 **/
+
+	function form($instance) {
+		$instance = wp_parse_args($instance, silo_stub::defaults());
+		extract($instance, EXTR_SKIP);
+		
+		echo '<p>'
+			. '<label>'
+			. '<input type="checkbox"'
+				. ' name="' . $this->get_field_name('deep') . '"'
+				. checked($deep, true, false)
+				. ' />'
+			. '&nbsp;'
+			. __('Display sub-child pages, in addition to immediate child pages', 'silo') . "\n"
+			. '</p>' . "\n";
+	} # form()
+	
+	
+	/**
+	 * defaults()
+	 *
+	 * @return array $instance default options
+	 **/
+
+	function defaults() {
+		return array(
+			'deep' => true,
+			);
+	} # defaults()
 	
 	
 	/**
