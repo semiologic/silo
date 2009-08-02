@@ -38,11 +38,6 @@ if ( !defined('sem_widget_cache_debug') )
  * @package Silo Widgets
  **/
 
-add_action('widgets_init', array('silo_widgets', 'widgets_init'));
-
-foreach ( array('page.php', 'page-new.php') as $hook )
-	add_action('load-' . $hook, array('silo_widgets', 'editor_init'));
-
 class silo_widgets {
 	/**
 	 * editor_init()
@@ -98,27 +93,6 @@ class silo_widgets {
  *
  * @package Silo Widgets
  **/
-
-foreach ( array(
-		'save_post',
-		'delete_post',
-		'switch_theme',
-		'update_option_active_plugins',
-		'update_option_show_on_front',
-		'update_option_page_on_front',
-		'update_option_page_for_posts',
-		'update_option_sidebars_widgets',
-		'update_option_sem5_options',
-		'update_option_sem6_options',
-		'generate_rewrite_rules',
-		
-		'flush_cache',
-		'after_db_upgrade',
-		) as $hook)
-	add_action($hook, array('silo_map', 'flush_cache'));
-
-register_activation_hook(__FILE__, array('silo_map', 'flush_cache'));
-register_deactivation_hook(__FILE__, array('silo_map', 'flush_cache'));
 
 class silo_map extends WP_Widget {
 	/**
@@ -391,27 +365,6 @@ class silo_map extends WP_Widget {
  *
  * @package Silo Widgets
  **/
-
-foreach ( array(
-		'save_post',
-		'delete_post',
-		'switch_theme',
-		'update_option_active_plugins',
-		'update_option_show_on_front',
-		'update_option_page_on_front',
-		'update_option_page_for_posts',
-		'update_option_sidebars_widgets',
-		'update_option_sem5_options',
-		'update_option_sem6_options',
-		'generate_rewrite_rules',
-		
-		'flush_cache',
-		'after_db_upgrade',
-		) as $hook)
-	add_action($hook, array('silo_stub', 'flush_cache'));
-
-register_activation_hook(__FILE__, array('silo_stub', 'flush_cache'));
-register_deactivation_hook(__FILE__, array('silo_stub', 'flush_cache'));
 
 class silo_stub extends WP_Widget {
 	/**
@@ -920,4 +873,52 @@ class silo_stub extends WP_Widget {
 		return $in;
 	} # flush_cache()
 } # silo_stub
+
+add_action('widgets_init', array('silo_widgets', 'widgets_init'));
+
+foreach ( array('page.php', 'page-new.php') as $hook )
+	add_action('load-' . $hook, array('silo_widgets', 'editor_init'));
+
+foreach ( array(
+		'save_post',
+		'delete_post',
+		'switch_theme',
+		'update_option_active_plugins',
+		'update_option_show_on_front',
+		'update_option_page_on_front',
+		'update_option_page_for_posts',
+		'update_option_sidebars_widgets',
+		'update_option_sem5_options',
+		'update_option_sem6_options',
+		'generate_rewrite_rules',
+		
+		'flush_cache',
+		'after_db_upgrade',
+		) as $hook)
+	add_action($hook, array('silo_map', 'flush_cache'));
+
+register_activation_hook(__FILE__, array('silo_map', 'flush_cache'));
+register_deactivation_hook(__FILE__, array('silo_map', 'flush_cache'));
+
+
+foreach ( array(
+		'save_post',
+		'delete_post',
+		'switch_theme',
+		'update_option_active_plugins',
+		'update_option_show_on_front',
+		'update_option_page_on_front',
+		'update_option_page_for_posts',
+		'update_option_sidebars_widgets',
+		'update_option_sem5_options',
+		'update_option_sem6_options',
+		'generate_rewrite_rules',
+		
+		'flush_cache',
+		'after_db_upgrade',
+		) as $hook)
+	add_action($hook, array('silo_stub', 'flush_cache'));
+
+register_activation_hook(__FILE__, array('silo_stub', 'flush_cache'));
+register_deactivation_hook(__FILE__, array('silo_stub', 'flush_cache'));
 ?>
