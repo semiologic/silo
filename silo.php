@@ -600,6 +600,7 @@ class silo_stub extends WP_Widget {
 				. ' />'
 			. '&nbsp;'
 			. __('Display child pages as sections, and sub-child pages as lists within these sections. Even if there are no sub-child pages.', 'silo') . "\n"
+			. '</label>'
 			. '</p>' . "\n";
 		
 		echo '<p>'
@@ -610,6 +611,7 @@ class silo_stub extends WP_Widget {
 				. ' />'
 			. '&nbsp;'
 			. __('Display child pages as sections, and sub-child pages as lists within these sections. If there are no sub-child pages, display a list of child pages instead.', 'silo') . "\n"
+			. '</label>'
 			. '</p>' . "\n";
 		
 		echo '<p>'
@@ -620,6 +622,7 @@ class silo_stub extends WP_Widget {
 				. ' />'
 			. '&nbsp;'
 			. __('Display a list of child pages. Don\'t display sub-child pages.', 'silo') . "\n"
+			. '</label>'
 			. '</p>' . "\n";
 	} # form()
 	
