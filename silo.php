@@ -302,7 +302,7 @@ class silo_map extends WP_Widget {
 		
 		foreach ( $all_ancestors as $child_id => $parent_ids ) {
 			while ( $parent_ids[0] )
-				$parent_ids = array_merge($all_ancestors[$parent_ids[0]], $parent_ids);
+				$parent_ids = array_merge((array) $all_ancestors[$parent_ids[0]], $parent_ids);
 			
 			wp_cache_set($child_id, $parent_ids, 'page_ancestors');
 		}
@@ -762,7 +762,7 @@ class silo_stub extends WP_Widget {
 		}
 		
 		foreach ( $all_ancestors as $child_id => $parent_ids ) {
-			while ( $parent_ids[0] )
+			while ( $parent_ids[0] && is_array($all_ancestors[$parent_ids[0]]) )
 				$parent_ids = array_merge($all_ancestors[$parent_ids[0]], $parent_ids);
 			wp_cache_set($child_id, $parent_ids, 'page_ancestors');
 		}
