@@ -194,9 +194,7 @@ class silo_map extends WP_Widget {
 			$page_id = 0;
 		}
 		
-		$label = get_post_meta($page->ID, '_widgets_label', true);
-		if ( (string) $label === '' )
-			$label = $page->post_title;
+		$label = $page->post_title;
 		if ( (string) $label === '' )
 			$label = __('Untitled', 'silo');
 		
