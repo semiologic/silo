@@ -200,7 +200,7 @@ class silo_map extends WP_Widget {
 		if ( (string) $label === '' )
 			$label = __('Untitled', 'silo');
 		
-		$url = esc_url(get_permalink($page->ID));
+		$url = esc_url(apply_filters('the_permalink', get_permalink($page->ID)));
 		
 		$ancestors = wp_cache_get($page_id, 'page_ancestors');
 		$children = wp_cache_get($page->ID, 'page_children');
@@ -492,7 +492,7 @@ class silo_stub extends WP_Widget {
 		if ( (string) $label === '' )
 			$label = __('Untitled', 'silo');
 		
-		$url = esc_url(get_permalink($page->ID));
+		$url = esc_url(apply_filters('the_permalink', get_permalink($page->ID)));
 		
 		$ancestors = wp_cache_get($page_id, 'page_ancestors');
 		$children = wp_cache_get($page->ID, 'page_children');
