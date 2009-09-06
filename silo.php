@@ -211,7 +211,7 @@ class silo_map extends WP_Widget {
 		if ( get_option('show_on_front') == 'page' && get_option('page_on_front') == $page->ID ) {
 			$classes[] = 'nav_home';
 			if ( !is_front_page() || is_front_page() && is_paged() )
-				$link = '<a href="' . $url . '" title="' . esc_attr($label) . '">'
+				$link = '<a href="' . user_trailingslashit($url) . '" title="' . esc_attr($label) . '">'
 					. $link
 					. '</a>';
 			if ( is_front_page() || in_array($page->ID, $ancestors) )
@@ -503,7 +503,7 @@ class silo_stub extends WP_Widget {
 		if ( get_option('show_on_front') == 'page' && get_option('page_on_front') == $page->ID ) {
 			$classes[] = 'nav_home';
 			if ( !is_front_page() || is_front_page() && is_paged() )
-				$link = '<a href="' . $url . '" title="' . esc_attr($label) . '">'
+				$link = '<a href="' . user_trailingslashit($url) . '" title="' . esc_attr($label) . '">'
 					. $link
 					. '</a>';
 			if ( is_front_page() || in_array($page->ID, $ancestors) )
