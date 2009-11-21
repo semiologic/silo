@@ -3,7 +3,7 @@
 Plugin Name: Silo Widgets
 Plugin URI: http://www.semiologic.com/software/silo/
 Description: Silo web design tools for sites built using static pages.
-Version: 3.0.1
+Version: 3.0.2 beta
 Author: Denis de Bernardy
 Author URI: http://www.getsemiologic.com
 Text Domain: silo
@@ -726,6 +726,7 @@ class silo_stub extends WP_Widget {
 			SELECT	posts.ID
 			FROM	$wpdb->posts as posts
 			WHERE	posts.post_type = 'page'
+			AND		post_status <> 'trash'
 			AND		posts.post_parent IN ( 0, $page_id, $front_page_id, $blog_page_id )
 			");
 		

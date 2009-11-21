@@ -32,6 +32,10 @@ The [Semiologic forum](http://forum.semiologic.com) is the best place to report 
 
 == Change Log ==
 
+= 3.0.2 =
+
+- WP 2.9 compat
+
 = 3.0.1 =
 
 - Allow silo maps in posts
