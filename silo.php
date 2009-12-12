@@ -348,6 +348,7 @@ class silo_map extends WP_Widget {
 			'post_title' => $post->post_title,
 			'post_name' => $post->post_name,
 			'post_date' => $post->post_date,
+			'post_author' => $post->post_author,
 			'post_excerpt' => $post->post_excerpt,
 			'post_content' => $post->post_content,
 			'permalink' => get_permalink($post_id),
@@ -1020,6 +1021,9 @@ class silo_stub extends WP_Widget {
 			'post_title' => $post->post_title,
 			'post_name' => $post->post_name,
 			'post_date' => $post->post_date,
+			'post_author' => $post->post_author,
+			'post_excerpt' => $post->post_excerpt,
+			'post_content' => $post->post_content,
 			'permalink' => get_permalink($post_id),
 			);
 		
