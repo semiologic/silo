@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.0\n"
+"Project-Id-Version: 3.0.3\n"
 "Report-Msgid-Bugs-To: https://tickets.semiologic.com\n"
-"POT-Creation-Date: 2009-08-03 18:31+0200\n"
+"POT-Creation-Date: 2009-12-12 19:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,50 +70,50 @@ msgstr ""
 msgid "Silo Map"
 msgstr ""
 
-#: silo.php:201 silo.php:493
+#: silo.php:206 silo.php:620
 msgid "Untitled"
 msgstr ""
 
-#: silo.php:379
+#: silo.php:498
 msgid ""
 "Lists child pages and sub-child page in a section. Insert this as an inline "
 "widget in a static page."
 msgstr ""
 
-#: silo.php:385
+#: silo.php:504
 msgid "Silo Stub"
 msgstr ""
 
-#: silo.php:404
+#: silo.php:523
 msgid "Deep"
 msgstr ""
 
-#: silo.php:405
+#: silo.php:524
 msgid "Hybrid"
 msgstr ""
 
-#: silo.php:406
+#: silo.php:525
 msgid "Shallow"
 msgstr ""
 
-#: silo.php:593
+#: silo.php:720
 msgid "Format"
 msgstr ""
 
-#: silo.php:602
+#: silo.php:729
 msgid ""
 "Display child pages as sections, and sub-child pages as lists within these "
 "sections. Even if there are no sub-child pages."
 msgstr ""
 
-#: silo.php:612
+#: silo.php:740
 msgid ""
 "Display child pages as sections, and sub-child pages as lists within these "
 "sections. If there are no sub-child pages, display a list of child pages "
 "instead."
 msgstr ""
 
-#: silo.php:622
+#: silo.php:751
 msgid "Display a list of child pages. Don't display sub-child pages."
 msgstr ""
 

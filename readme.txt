@@ -32,6 +32,11 @@ The [Semiologic forum](http://forum.semiologic.com) is the best place to report 
 
 == Change Log ==
 
+= 3.0.3 =
+
+- Sem Cache 2.0 related tweaks
+- Fix blog link on search/404 pages
+
 = 3.0.2 =
 
 - WP 2.9 compat
