@@ -36,6 +36,7 @@ The [Semiologic forum](http://forum.semiologic.com) is the best place to report 
 
 - Sem Cache 2.0 related tweaks
 - Fix blog link on search/404 pages
+- Apply filters to permalinks
 
 = 3.0.2 =
 

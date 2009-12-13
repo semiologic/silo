@@ -349,9 +349,10 @@ class silo_map extends WP_Widget {
 			'post_name' => $post->post_name,
 			'post_date' => $post->post_date,
 			'post_author' => $post->post_author,
+			'post_status' => $post->post_status,
 			'post_excerpt' => $post->post_excerpt,
 			'post_content' => $post->post_content,
-			'permalink' => get_permalink($post_id),
+			'permalink' => apply_filters('the_permalink', get_permalink($post_id)),
 			);
 		
 		foreach ( array(
@@ -404,7 +405,7 @@ class silo_map extends WP_Widget {
 				break;
 			
 			case 'permalink':
-				if ( $$key != get_permalink($post_id) )
+				if ( $$key != apply_filters('the_permalink', get_permalink($post_id)) )
 					return silo_map::flush_cache();
 				break;
 			
@@ -1022,9 +1023,10 @@ class silo_stub extends WP_Widget {
 			'post_name' => $post->post_name,
 			'post_date' => $post->post_date,
 			'post_author' => $post->post_author,
+			'post_status' => $post->post_status,
 			'post_excerpt' => $post->post_excerpt,
 			'post_content' => $post->post_content,
-			'permalink' => get_permalink($post_id),
+			'permalink' => apply_filters('the_permalink', get_permalink($post_id)),
 			);
 		
 		foreach ( array(
@@ -1077,11 +1079,12 @@ class silo_stub extends WP_Widget {
 				break;
 			
 			case 'permalink':
-				if ( $$key != get_permalink($post_id) )
+				if ( $$key != apply_filters('the_permalink', get_permalink($post_id)) )
 					return silo_stub::flush_cache();
 				break;
 			
 			case 'post_title':
+			case 'post_status':
 				if ( $$key != $post->$key )
 					return silo_stub::flush_cache();
 			}
