@@ -389,7 +389,15 @@ class silo_map extends WP_Widget {
 		if ( !$post || $post->post_type != 'page' || wp_is_post_revision($post_id) )
 			return;
 		
+		# prevent mass-flushing when rewrite rules have not changed
+		if ( $post->post_type == 'page' )
+			remove_action('generate_rewrite_rules', array('silo_map', 'flush_cache'));
+		
 		$old = wp_cache_get($post_id, 'pre_flush_post');
+		
+		if ( $post->post_status != 'publish' && ( !$old || $old['post_status'] != 'publish' ) )
+			return;
+		
 		if ( $old === false )
 			return silo_map::flush_cache();
 		
@@ -414,10 +422,6 @@ class silo_map extends WP_Widget {
 					return silo_map::flush_cache();
 			}
 		}
-		
-		# prevent mass-flushing when rewrite rules have not changed
-		if ( $post->post_type == 'page' )
-			remove_action('generate_rewrite_rules', array('silo_map', 'flush_cache'));
 	} # flush_post()
 	
 	
@@ -1063,7 +1067,15 @@ class silo_stub extends WP_Widget {
 		if ( !$post || $post->post_type != 'page' || wp_is_post_revision($post_id) )
 			return;
 		
+		# prevent mass-flushing when rewrite rules have not changed
+		if ( $post->post_type == 'page' )
+			remove_action('generate_rewrite_rules', array('silo_stub', 'flush_cache'));
+		
 		$old = wp_cache_get($post_id, 'pre_flush_post');
+		
+		if ( $post->post_status != 'publish' && ( !$old || $old['post_status'] != 'publish' ) )
+			return;
+		
 		if ( $old === false )
 			return silo_stub::flush_cache();
 		
@@ -1089,10 +1101,6 @@ class silo_stub extends WP_Widget {
 					return silo_stub::flush_cache();
 			}
 		}
-		
-		# prevent mass-flushing when rewrite rules have not changed
-		if ( $post->post_type == 'page' )
-			remove_action('generate_rewrite_rules', array('silo_stub', 'flush_cache'));
 	} # flush_post()
 	
 	
