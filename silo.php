@@ -341,35 +341,37 @@ class silo_map extends WP_Widget {
 		if ( !$post || $post->post_type != 'page' || wp_is_post_revision($post_id) )
 			return;
 		
-		if ( wp_cache_get($post_id, 'pre_flush_post') !== false )
-			return;
+		if ( wp_cache_get($post_id, 'pre_flush_post') === false )
+			$old = array();
 		
-		$old = array(
-			'post_title' => $post->post_title,
-			'post_name' => $post->post_name,
-			'post_date' => $post->post_date,
-			'post_author' => $post->post_author,
-			'post_status' => $post->post_status,
-			'post_excerpt' => $post->post_excerpt,
-			'post_content' => $post->post_content,
-			'permalink' => apply_filters('the_permalink', get_permalink($post_id)),
-			);
+		$update = false;
+		foreach ( array(
+			'post_title',
+			'post_status',
+			) as $field => $value ) {
+			if ( !isset($o[$field]) ) {
+				$old[$field] = $post->$field;
+				$update = true;
+			}
+		}
+		
+		if ( !isset($old['permalink']) ) {
+			$old['permalink'] = apply_filters('the_permalink', get_permalink($post_id));
+			$update = true;
+		}
 		
 		foreach ( array(
 			'widgets_label', 'widgets_desc',
 			'widgets_exclude', 'widgets_exception',
 			) as $key ) {
-			$old[$key] = get_post_meta($post_id, "_$key", true);
+			if ( !isset($old[$key]) ) {
+				$old[$key] = get_post_meta($post_id, "_$key", true);
+				$update = true;
+			}
 		}
 		
-		foreach ( array('category', 'post_tag') as $taxonomy ) {
-			$terms = wp_get_object_terms($post_id, $taxonomy);
-			$old[$taxonomy] = array();
-			foreach ( $terms as &$term )
-				$old[$taxonomy][] = $term->term_id;
-		}
-		
-		wp_cache_add($post_id, $old, 'pre_flush_post');
+		if ( $update )
+			wp_cache_set($post_id, $old, 'pre_flush_post');
 	} # pre_flush_post()
 	
 	
@@ -390,8 +392,7 @@ class silo_map extends WP_Widget {
 			return;
 		
 		# prevent mass-flushing when rewrite rules have not changed
-		if ( $post->post_type == 'page' )
-			remove_action('generate_rewrite_rules', array('silo_map', 'flush_cache'));
+		remove_action('generate_rewrite_rules', array('silo_map', 'flush_cache'));
 		
 		$old = wp_cache_get($post_id, 'pre_flush_post');
 		
@@ -418,6 +419,7 @@ class silo_map extends WP_Widget {
 				break;
 			
 			case 'post_title':
+			case 'post_status':
 				if ( $$key != $post->$key )
 					return silo_map::flush_cache();
 			}
@@ -1019,35 +1021,37 @@ class silo_stub extends WP_Widget {
 		if ( !$post || $post->post_type != 'page' || wp_is_post_revision($post_id) )
 			return;
 		
-		if ( wp_cache_get($post_id, 'pre_flush_post') !== false )
-			return;
+		if ( wp_cache_get($post_id, 'pre_flush_post') === false )
+			$old = array();
 		
-		$old = array(
-			'post_title' => $post->post_title,
-			'post_name' => $post->post_name,
-			'post_date' => $post->post_date,
-			'post_author' => $post->post_author,
-			'post_status' => $post->post_status,
-			'post_excerpt' => $post->post_excerpt,
-			'post_content' => $post->post_content,
-			'permalink' => apply_filters('the_permalink', get_permalink($post_id)),
-			);
+		$update = false;
+		foreach ( array(
+			'post_title',
+			'post_status',
+			) as $field => $value ) {
+			if ( !isset($o[$field]) ) {
+				$old[$field] = $post->$field;
+				$update = true;
+			}
+		}
+		
+		if ( !isset($old['permalink']) ) {
+			$old['permalink'] = apply_filters('the_permalink', get_permalink($post_id));
+			$update = true;
+		}
 		
 		foreach ( array(
 			'widgets_label', 'widgets_desc',
 			'widgets_exclude', 'widgets_exception',
 			) as $key ) {
-			$old[$key] = get_post_meta($post_id, "_$key", true);
+			if ( !isset($old[$key]) ) {
+				$old[$key] = get_post_meta($post_id, "_$key", true);
+				$update = true;
+			}
 		}
 		
-		foreach ( array('category', 'post_tag') as $taxonomy ) {
-			$terms = wp_get_object_terms($post_id, $taxonomy);
-			$old[$taxonomy] = array();
-			foreach ( $terms as &$term )
-				$old[$taxonomy][] = $term->term_id;
-		}
-		
-		wp_cache_add($post_id, $old, 'pre_flush_post');
+		if ( $update )
+			wp_cache_set($post_id, $old, 'pre_flush_post');
 	} # pre_flush_post()
 	
 	
@@ -1068,8 +1072,7 @@ class silo_stub extends WP_Widget {
 			return;
 		
 		# prevent mass-flushing when rewrite rules have not changed
-		if ( $post->post_type == 'page' )
-			remove_action('generate_rewrite_rules', array('silo_stub', 'flush_cache'));
+		remove_action('generate_rewrite_rules', array('silo_stub', 'flush_cache'));
 		
 		$old = wp_cache_get($post_id, 'pre_flush_post');
 		
