@@ -389,7 +389,7 @@ class silo_map extends WP_Widget {
 		if ( !$post_id )
 			return;
 		
-		# prevent mass-flushing when rewrite rules have not changed
+		# prevent mass-flushing when the permalink structure hasn't changed
 		remove_action('generate_rewrite_rules', array('silo_map', 'flush_cache'));
 		
 		$post = get_post($post_id);
@@ -1071,7 +1071,7 @@ class silo_stub extends WP_Widget {
 		if ( !$post_id )
 			return;
 		
-		# prevent mass-flushing when rewrite rules have not changed
+		# prevent mass-flushing when the permalink structure hasn't changed
 		remove_action('generate_rewrite_rules', array('silo_stub', 'flush_cache'));
 		
 		$post = get_post($post_id);
