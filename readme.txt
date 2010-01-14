@@ -32,6 +32,10 @@ The [Semiologic forum](http://forum.semiologic.com) is the best place to report 
 
 == Change Log ==
 
+= 3.0.4 =
+
+- Further cache improvements (fix priority)
+
 = 3.0.3 =
 
 - Sem Cache 2.0 related tweaks
