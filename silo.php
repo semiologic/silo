@@ -3,7 +3,7 @@
 Plugin Name: Silo Widgets
 Plugin URI: http://www.semiologic.com/software/silo/
 Description: Silo web design tools for sites built using static pages.
-Version: 3.0.4 RC
+Version: 3.0.4 RC2
 Author: Denis de Bernardy
 Author URI: http://www.getsemiologic.com
 Text Domain: silo
@@ -308,9 +308,8 @@ class silo_map extends WP_Widget {
 		}
 		
 		foreach ( $all_ancestors as $child_id => $parent_ids ) {
-			while ( $parent_ids[0] )
-				$parent_ids = array_merge((array) $all_ancestors[$parent_ids[0]], $parent_ids);
-			
+			while ( $parent_ids[0] && $all_ancestors[$parent_ids[0]] )
+				$parent_ids = array_merge($all_ancestors[$parent_ids[0]], $parent_ids);
 			wp_cache_set($child_id, $parent_ids, 'page_ancestors');
 		}
 		
@@ -923,7 +922,7 @@ class silo_stub extends WP_Widget {
 		}
 		
 		foreach ( $all_ancestors as $child_id => $parent_ids ) {
-			while ( $parent_ids[0] && is_array($all_ancestors[$parent_ids[0]]) )
+			while ( $parent_ids[0] && $all_ancestors[$parent_ids[0]] )
 				$parent_ids = array_merge($all_ancestors[$parent_ids[0]], $parent_ids);
 			wp_cache_set($child_id, $parent_ids, 'page_ancestors');
 		}
