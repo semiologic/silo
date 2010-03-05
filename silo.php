@@ -291,7 +291,7 @@ class silo_map extends WP_Widget {
 		$to_cache = array();
 		
 		foreach ( $pages as $page ) {
-			if ( !is_array($children[$page->ID]) )
+			if ( !isset($children[$page->ID]) || !is_array($children[$page->ID]) )
 				$children[$page->ID] = array();
 			$children[$page->post_parent][] = $page->ID;
 			$to_cache[] = $page->ID;
