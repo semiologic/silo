@@ -3,7 +3,7 @@
 Plugin Name: Silo Widgets
 Plugin URI: http://www.semiologic.com/software/silo/
 Description: Silo web design tools for sites built using static pages.
-Version: 3.0.5 alpha
+Version: 3.0.5 RC
 Author: Denis de Bernardy
 Author URI: http://www.getsemiologic.com
 Text Domain: silo
@@ -1172,6 +1172,11 @@ add_action('widgets_init', array('silo_widgets', 'widgets_init'));
 
 foreach ( array('page.php', 'page-new.php') as $hook )
 	add_action('load-' . $hook, array('silo_widgets', 'editor_init'));
+
+if ( function_exists('is_multisite') ) {
+	foreach ( array('post.php', 'post-new.php') as $hook )
+		add_action('load-' . $hook, array('silo_widgets', 'editor_init'));
+}
 
 foreach ( array(
 		'switch_theme',
