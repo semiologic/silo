@@ -3,8 +3,8 @@
 Plugin Name: Silo Widgets
 Plugin URI: http://www.semiologic.com/software/silo/
 Description: Silo web design tools for sites built using static pages.
-Version: 3.0.5
-Author: Denis de Bernardy
+Version: 3.1
+Author: Denis de Bernardy & Mike Koepke
 Author URI: http://www.getsemiologic.com
 Text Domain: silo
 Domain Path: /lang
@@ -122,7 +122,9 @@ class silo_map extends WP_Widget {
 	function widget($args, $instance) {
 		extract($args, EXTR_SKIP);
 		extract($instance, EXTR_SKIP);
-		
+
+        global $_wp_using_ext_object_cache;
+
 		if ( is_admin() || !in_the_loop() )
 			return;
 		
@@ -187,7 +189,7 @@ class silo_map extends WP_Widget {
 	 **/
 
 	function display_page($ref) {
-		$page = get_page($ref);
+		$page = get_post($ref);
 		
 		if ( !$page || get_post_meta($page->ID, '_widgets_exclude', true) && !get_post_meta($page->ID, '_widgets_exception', true) )
 			return;
@@ -608,7 +610,7 @@ class silo_stub extends WP_Widget {
 	 **/
 
 	function display_page($ref, $deep = false) {
-		$page = get_page($ref);
+		$page = get_post($ref);
 		
 		if ( !$page || get_post_meta($page->ID, '_widgets_exclude', true) && !get_post_meta($page->ID, '_widgets_exception', true) )
 			return;
@@ -786,7 +788,7 @@ class silo_stub extends WP_Widget {
 		if ( is_page() ) {
 			global $wp_the_query;
 			$page_id = (int) $wp_the_query->get_queried_object_id();
-			$page = get_page($page_id);
+			$page = get_post($page_id);
 		} else {
 			$page_id = 0;
 			$page = null;
@@ -794,9 +796,9 @@ class silo_stub extends WP_Widget {
 		
 		if ( get_option('show_on_front') == 'page' ) {
 			$front_page_id = (int) get_option('page_on_front');
-			$front_page = get_page($front_page_id);
+			$front_page = get_post($front_page_id);
 			$blog_page_id = (int) get_option('page_for_posts');
-			$blog_page = $blog_page_id ? get_page($blog_page_id) : null;
+			$blog_page = $blog_page_id ? get_post($blog_page_id) : null;
 		} else {
 			$front_page_id = 0;
 			$front_page = null;
@@ -809,7 +811,7 @@ class silo_stub extends WP_Widget {
 			$ancestors = array();
 			while ( $page && $page->post_parent != 0 ) {
 				$ancestors[] = (int) $page->post_parent;
-				$page = get_page($page->post_parent);
+				$page = get_post($page->post_parent);
 			}
 			$ancestors = array_reverse($ancestors);
 			wp_cache_set($page_id, $ancestors, 'page_ancestors');
@@ -820,7 +822,7 @@ class silo_stub extends WP_Widget {
 			$front_page_ancestors = array();
 			while ( $front_page && $front_page->post_parent != 0 ) {
 				$front_page_ancestors[] = (int) $front_page->post_parent;
-				$front_page = get_page($front_page->post_parent);
+				$front_page = get_post($front_page->post_parent);
 			}
 			$front_page_ancestors = array_reverse($front_page_ancestors);
 			wp_cache_set($front_page_id, $front_page_ancestors, 'page_ancestors');
@@ -831,7 +833,7 @@ class silo_stub extends WP_Widget {
 			$blog_page_ancestors = array();
 			while ( $blog_page && $blog_page->post_parent != 0 ) {
 				$blog_page_ancestors[] = (int) $blog_page->post_parent;
-				$blog_page = get_page($blog_page->post_parent);
+				$blog_page = get_post($blog_page->post_parent);
 			}
 			$blog_page_ancestors = array_reverse($blog_page_ancestors);
 			wp_cache_set($blog_page_id, $blog_page_ancestors, 'page_ancestors');
@@ -948,7 +950,7 @@ class silo_stub extends WP_Widget {
 		if ( is_page() ) {
 			global $wp_the_query;
 			$page_id = (int) $wp_the_query->get_queried_object_id();
-			$page = get_page($page_id);
+			$page = get_post($page_id);
 		} else {
 			$page_id = 0;
 			$page = null;
@@ -987,8 +989,7 @@ class silo_stub extends WP_Widget {
 		
 		foreach ( $children as $parent_id => $child_ids ) {
 			foreach ( $child_ids as $child_id ) {
-				$ancestors = array();
-				$ancestors = wp_cache_get($parent_id, 'page_ancestors');
+				$ancestors = (array) wp_cache_get($parent_id, 'page_ancestors');
 				$ancestors[] = $parent_id;
 				wp_cache_set($child_id, $ancestors, 'page_ancestors');
 			}
@@ -1062,7 +1063,7 @@ class silo_stub extends WP_Widget {
 	 * flush_post()
 	 *
 	 * @param int $post_id
-	 * @return void
+	 * @return void|mixed
 	 **/
 
 	function flush_post($post_id) {
