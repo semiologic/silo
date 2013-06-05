@@ -32,6 +32,10 @@ The [Semiologic forum](http://forum.semiologic.com) is the best place to report 
 
 == Change Log ==
 
+= 3.1.2 =
+
+- Fixed incorrect url being generated for hierarchies with children of children.  url was being generated as parent/grandparent/child
+
 = 3.1.1 =
 
 - Fix caching issue with "This Page in Widgets" not refreshing on title or description updates

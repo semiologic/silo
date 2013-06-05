@@ -3,7 +3,7 @@
 Plugin Name: Silo Widgets
 Plugin URI: http://www.semiologic.com/software/silo/
 Description: Silo web design tools for sites built using static pages.
-Version: 3.1.1
+Version: 3.1.2
 Author: Denis de Bernardy & Mike Koepke
 Author URI: http://www.getsemiologic.com
 Text Domain: silo
@@ -209,7 +209,7 @@ class silo_map extends WP_Widget {
 		
 		$url = esc_url(apply_filters('the_permalink', get_permalink($page->ID)));
 		
-		$ancestors = wp_cache_get($page_id, 'page_ancestors');
+		$ancestors = wp_cache_get($page->ID, 'page_ancestors');
 		if ( $ancestors === false )
 			$ancestors = array();
 		$children = wp_cache_get($page->ID, 'page_children');
@@ -318,6 +318,7 @@ class silo_map extends WP_Widget {
 		foreach ( array_keys($pages) as $k ) {
 			$ancestors = wp_cache_get($pages[$k]->ID, 'page_ancestors');
 			array_shift($ancestors);
+            $ancestors = array_reverse($ancestors);
 			$pages[$k]->ancestors = $ancestors;
 		}
 
