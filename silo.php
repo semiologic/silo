@@ -3,7 +3,7 @@
 Plugin Name: Silo Widgets
 Plugin URI: http://www.semiologic.com/software/silo/
 Description: Silo web design tools for sites built using static pages.
-Version: 3.1.2
+Version: 3.1.3
 Author: Denis de Bernardy & Mike Koepke
 Author URI: http://www.getsemiologic.com
 Text Domain: silo
@@ -140,6 +140,7 @@ class silo_map extends WP_Widget {
 		} else {
 			$cache_id = "$widget_id";
 			$o = get_transient($cache_id);
+            $page_id = 0;
 		}
 		
 		if ( !sem_widget_cache_debug && !is_preview() && $o ) {
@@ -383,7 +384,7 @@ class silo_map extends WP_Widget {
 	 * flush_post()
 	 *
 	 * @param int $post_id
-	 * @return void
+	 * @return mixed
 	 **/
 
 	function flush_post($post_id) {
@@ -633,7 +634,9 @@ class silo_stub extends WP_Widget {
 		
 		$url = esc_url(apply_filters('the_permalink', get_permalink($page->ID)));
 		
-		$ancestors = wp_cache_get($page_id, 'page_ancestors');
+        $ancestors = wp_cache_get($page->ID, 'page_ancestors');
+    		if ( $ancestors === false )
+    			$ancestors = array();
 		$children = wp_cache_get($page->ID, 'page_children');
 		
 		$classes = array();
@@ -933,6 +936,7 @@ class silo_stub extends WP_Widget {
 		foreach ( array_keys($pages) as $k ) {
 			$ancestors = wp_cache_get($pages[$k]->ID, 'page_ancestors');
 			array_shift($ancestors);
+            $ancestors = array_reverse($ancestors);
 			$pages[$k]->ancestors = $ancestors;
 		}
 
@@ -951,10 +955,8 @@ class silo_stub extends WP_Widget {
 		if ( is_page() ) {
 			global $wp_the_query;
 			$page_id = (int) $wp_the_query->get_queried_object_id();
-			$page = get_post($page_id);
 		} else {
 			$page_id = 0;
-			$page = null;
 		}
 		
 		$to_do = array();
@@ -1000,9 +1002,10 @@ class silo_stub extends WP_Widget {
 		foreach ( array_keys($pages) as $k ) {
 			$ancestors = wp_cache_get($pages[$k]->ID, 'page_ancestors');
 			array_shift($ancestors);
+            $ancestors = array_reverse($ancestors);
 			$pages[$k]->ancestors = $ancestors;
 		}
-		
+
 		update_post_cache($pages);
 		update_postmeta_cache($to_do);
 	} # cache_extra_pages()

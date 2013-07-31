@@ -3,7 +3,7 @@ Contributors: Denis-de-Bernardy & Mike_Koepke
 Donate link: http://www.semiologic.com/partners/
 Tags: semiologic
 Requires at least: 3.1
-Tested up to: 3.5.1
+Tested up to: 3.6
 Stable tag: trunk
 
 A collection of widgets to create silo web designed sites using static pages.
@@ -32,9 +32,14 @@ The [Semiologic forum](http://forum.semiologic.com) is the best place to report 
 
 == Change Log ==
 
+= 3.2 =
+
+- Fixed incorrect url being generated for hierarchies with children of children in the Silo Stub widget.  url was being generated as parent/grandparent/child (props Todd)
+- Tested with WordPress 3.6
+
 = 3.1.2 =
 
-- Fixed incorrect url being generated for hierarchies with children of children.  url was being generated as parent/grandparent/child
+- Fixed incorrect url being generated for hierarchies with children of children in the Silo Map and NavMenus widget.  url was being generated as parent/grandparent/child (props Todd)
 
 = 3.1.1 =
 
