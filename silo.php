@@ -3,7 +3,7 @@
 Plugin Name: Silo Widgets
 Plugin URI: http://www.semiologic.com/software/silo/
 Description: Silo web design tools for sites built using static pages.
-Version: 3.2
+Version: 3.3
 Author: Denis de Bernardy & Mike Koepke
 Author URI: http://www.getsemiologic.com
 Text Domain: silo
@@ -39,7 +39,25 @@ if ( !defined('sem_widget_cache_debug') )
  **/
 
 class silo_widgets {
-	/**
+    /**
+     * silo_widgets
+     */
+    function silo_widgets() {
+        add_action('widgets_init', array($this, 'widgets_init'));
+
+        foreach ( array('page.php', 'page-new.php') as $hook )
+        	add_action('load-' . $hook, array($this, 'editor_init'));
+
+        if ( function_exists('is_multisite') ) {
+        	foreach ( array('post.php', 'post-new.php') as $hook )
+        		add_action('load-' . $hook, array($this, 'editor_init'));
+        }
+
+        wp_cache_add_non_persistent_groups(array('page_ancestors', 'page_children'));
+        wp_cache_add_non_persistent_groups(array('widget_queries', 'pre_flush_post'));
+    }
+
+    /**
 	 * editor_init()
 	 *
 	 * @return void
@@ -50,7 +68,7 @@ class silo_widgets {
 			include dirname(__FILE__) . '/widget-utils/widget-utils.php';
 		
 		widget_utils::page_meta_boxes();
-		add_action('page_widget_config_affected', array('silo_widgets', 'widget_config_affected'));
+		add_action('page_widget_config_affected', array($this, 'widget_config_affected'));
 		
 		if ( !class_exists('page_tags') )
 			include dirname(__FILE__) . '/page-tags/page-tags.php';
@@ -81,7 +99,7 @@ class silo_widgets {
 	 * @return void
 	 **/
 
-	function widgets_init() {
+	static function widgets_init() {
 		register_widget('silo_map');
 		register_widget('silo_stub');
 	} # widgets_init()
@@ -102,6 +120,37 @@ class silo_map extends WP_Widget {
 	 **/
 
 	function silo_map() {
+        foreach ( array(
+        		'switch_theme',
+        		'update_option_active_plugins',
+        		'update_option_show_on_front',
+        		'update_option_page_on_front',
+        		'update_option_page_for_posts',
+        		'update_option_sidebars_widgets',
+        		'update_option_sem5_options',
+        		'update_option_sem6_options',
+        		'generate_rewrite_rules',
+                'clean_post_cache',
+                'clean_page_cache',
+         //       'updated_post_meta',
+         //       'updated_page_meta',
+        		'flush_cache',
+        		'after_db_upgrade',
+        		) as $hook )
+        	add_action($hook, array($this, 'flush_cache'));
+
+        add_action('pre_post_update', array($this, 'pre_flush_post'));
+
+        foreach ( array(
+        		'save_post',
+        		'delete_post',
+        		) as $hook )
+        	add_action($hook, array($this, 'flush_post'), 1); // before _save_post_hook()
+
+        register_activation_hook(__FILE__, array($this, 'flush_cache'));
+        register_deactivation_hook(__FILE__, array($this, 'flush_cache'));
+
+
 		$widget_ops = array(
 			'classname' => 'silo_map',
 			'description' => __('A site map. Insert this as an inline widget in a static page for best effect.', 'silo'),
@@ -393,7 +442,7 @@ class silo_map extends WP_Widget {
 			return;
 		
 		# prevent mass-flushing when the permalink structure hasn't changed
-		remove_action('generate_rewrite_rules', array('silo_map', 'flush_cache'));
+		remove_action('generate_rewrite_rules', array($this, 'flush_cache'));
 		
 		$post = get_post($post_id);
 		if ( !$post || $post->post_type != 'page' || wp_is_post_revision($post_id) )
@@ -506,6 +555,36 @@ class silo_stub extends WP_Widget {
 	 **/
 
 	function silo_stub() {
+        foreach ( array(
+        		'switch_theme',
+        		'update_option_active_plugins',
+        		'update_option_show_on_front',
+        		'update_option_page_on_front',
+        		'update_option_page_for_posts',
+        		'update_option_sidebars_widgets',
+        		'update_option_sem5_options',
+        		'update_option_sem6_options',
+        		'generate_rewrite_rules',
+                      'clean_post_cache',
+                      'clean_page_cache',
+               //       'updated_post_meta',
+               //       'updated_page_meta',
+        		'flush_cache',
+        		'after_db_upgrade',
+        		) as $hook )
+        	add_action($hook, array($this, 'flush_cache'));
+
+        add_action('pre_post_update', array($this, 'pre_flush_post'));
+
+        foreach ( array(
+        		'save_post',
+        		'delete_post',
+        		) as $hook )
+        	add_action($hook, array($this, 'flush_post'), 1); // before _save_post_hook()
+
+        register_activation_hook(__FILE__, array($this, 'flush_cache'));
+        register_deactivation_hook(__FILE__, array($this, 'flush_cache'));
+
 		$widget_ops = array(
 			'classname' => 'silo_stub',
 			'description' => __('Lists child pages and sub-child page in a section. Insert this as an inline widget in a static page.', 'silo'),
@@ -1076,7 +1155,7 @@ class silo_stub extends WP_Widget {
 			return;
 		
 		# prevent mass-flushing when the permalink structure hasn't changed
-		remove_action('generate_rewrite_rules', array('silo_stub', 'flush_cache'));
+		remove_action('generate_rewrite_rules', array($this, 'flush_cache'));
 		
 		$post = get_post($post_id);
 		if ( !$post || $post->post_type != 'page' || wp_is_post_revision($post_id) )
@@ -1173,77 +1252,6 @@ class silo_stub extends WP_Widget {
 	} # flush_cache()
 } # silo_stub
 
-add_action('widgets_init', array('silo_widgets', 'widgets_init'));
+$silo_widgets = new silo_widgets();
 
-foreach ( array('page.php', 'page-new.php') as $hook )
-	add_action('load-' . $hook, array('silo_widgets', 'editor_init'));
-
-if ( function_exists('is_multisite') ) {
-	foreach ( array('post.php', 'post-new.php') as $hook )
-		add_action('load-' . $hook, array('silo_widgets', 'editor_init'));
-}
-
-foreach ( array(
-		'switch_theme',
-		'update_option_active_plugins',
-		'update_option_show_on_front',
-		'update_option_page_on_front',
-		'update_option_page_for_posts',
-		'update_option_sidebars_widgets',
-		'update_option_sem5_options',
-		'update_option_sem6_options',
-		'generate_rewrite_rules',
-        'clean_post_cache',
-        'clean_page_cache',
- //       'updated_post_meta',
- //       'updated_page_meta',
-		'flush_cache',
-		'after_db_upgrade',
-		) as $hook )
-	add_action($hook, array('silo_map', 'flush_cache'));
-
-add_action('pre_post_update', array('silo_map', 'pre_flush_post'));
-
-foreach ( array(
-		'save_post',
-		'delete_post',
-		) as $hook )
-	add_action($hook, array('silo_map', 'flush_post'), 1); // before _save_post_hook()
-
-register_activation_hook(__FILE__, array('silo_map', 'flush_cache'));
-register_deactivation_hook(__FILE__, array('silo_map', 'flush_cache'));
-
-
-foreach ( array(
-		'switch_theme',
-		'update_option_active_plugins',
-		'update_option_show_on_front',
-		'update_option_page_on_front',
-		'update_option_page_for_posts',
-		'update_option_sidebars_widgets',
-		'update_option_sem5_options',
-		'update_option_sem6_options',
-		'generate_rewrite_rules',
-              'clean_post_cache',
-              'clean_page_cache',
-       //       'updated_post_meta',
-       //       'updated_page_meta',
-		'flush_cache',
-		'after_db_upgrade',
-		) as $hook )
-	add_action($hook, array('silo_stub', 'flush_cache'));
-
-add_action('pre_post_update', array('silo_stub', 'pre_flush_post'));
-
-foreach ( array(
-		'save_post',
-		'delete_post',
-		) as $hook )
-	add_action($hook, array('silo_stub', 'flush_post'), 1); // before _save_post_hook()
-
-register_activation_hook(__FILE__, array('silo_stub', 'flush_cache'));
-register_deactivation_hook(__FILE__, array('silo_stub', 'flush_cache'));
-
-wp_cache_add_non_persistent_groups(array('page_ancestors', 'page_children'));
-wp_cache_add_non_persistent_groups(array('widget_queries', 'pre_flush_post'));
 ?>

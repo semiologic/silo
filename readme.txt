@@ -32,6 +32,11 @@ The [Semiologic forum](http://forum.semiologic.com) is the best place to report 
 
 == Change Log ==
 
+= 3.3 =
+
+- WP 3.6 compat
+- PHP 5.4 compat
+
 = 3.2 =
 
 - Fixed incorrect url being generated for hierarchies with children of children in the Silo Stub widget.  url was being generated as parent/grandparent/child (props Todd)
