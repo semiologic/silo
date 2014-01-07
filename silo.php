@@ -3,20 +3,19 @@
 Plugin Name: Silo Widgets
 Plugin URI: http://www.semiologic.com/software/silo/
 Description: Silo web design tools for sites built using static pages.
-Version: 3.3
+Version: 3.3.1
 Author: Denis de Bernardy & Mike Koepke
 Author URI: http://www.getsemiologic.com
 Text Domain: silo
 Domain Path: /lang
+License: Dual licensed under the MIT and GPLv2 licenses
 */
 
 /*
 Terms of use
 ------------
 
-This software is copyright Mesoconcepts and is distributed under the terms of the Mesoconcepts license. In a nutshell, you may freely use it for any purpose, but may not redistribute it without written permission.
-
-http://www.mesoconcepts.com/license/
+This software is copyright Denis de Bernardy & Mike Koepke, and is distributed under the terms of the MIT and GPLv2 licenses.
 **/
 
 
@@ -42,7 +41,7 @@ class silo_widgets {
     /**
      * silo_widgets
      */
-    function silo_widgets() {
+    public function __construct() {
         add_action('widgets_init', array($this, 'widgets_init'));
 
         foreach ( array('page.php', 'page-new.php') as $hook )
@@ -119,7 +118,7 @@ class silo_map extends WP_Widget {
 	 * @return void
 	 **/
 
-	function silo_map() {
+	public function __construct() {
         foreach ( array(
         		'switch_theme',
         		'update_option_active_plugins',
@@ -554,7 +553,7 @@ class silo_stub extends WP_Widget {
 	 * @return void
 	 **/
 
-	function silo_stub() {
+	public function __construct() {
         foreach ( array(
         		'switch_theme',
         		'update_option_active_plugins',
@@ -1253,5 +1252,3 @@ class silo_stub extends WP_Widget {
 } # silo_stub
 
 $silo_widgets = new silo_widgets();
-
-?>
