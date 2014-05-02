@@ -84,6 +84,7 @@ class silo_map extends WP_Widget {
    //       'updated_page_meta',
   		'flush_cache',
   		'after_db_upgrade',
+		'wp_upgrade'
   		) as $hook )
   	    add_action($hook, array($this, 'flush_cache'));
 
@@ -120,24 +121,34 @@ class silo_map extends WP_Widget {
 		if ( is_admin() || !in_the_loop() )
 			return;
 
-		if ( is_page() ) {
-			global $_wp_using_ext_object_cache;
-			global $wp_query;
-			$page_id = $wp_query->get_queried_object_id();
-			$cache_id = "_$widget_id";
-			if ( $_wp_using_ext_object_cache )
-				$o = wp_cache_get($page_id, $widget_id);
-			else
-				$o = get_post_meta($page_id, $cache_id, true);
-		} else {
-			$cache_id = "$widget_id";
-			$o = get_transient($cache_id);
-            $page_id = 0;
-		}
+		$use_caching = true;
+		global $wp_version;
+		if ( version_compare( $wp_version, '3.9', '>=' ) )
+			if ( $this->is_preview() )
+				$use_caching = false;
 
-		if ( !sem_widget_cache_debug && !is_preview() && $o ) {
-			echo $o;
-			return;
+		$o = '';
+
+		if ( $use_caching ) {
+			if ( is_page() ) {
+				global $_wp_using_ext_object_cache;
+				global $wp_query;
+				$page_id = $wp_query->get_queried_object_id();
+				$cache_id = "_$widget_id";
+				if ( $_wp_using_ext_object_cache )
+					$o = wp_cache_get($page_id, $widget_id);
+				else
+					$o = get_post_meta($page_id, $cache_id, true);
+			} else {
+				$cache_id = "$widget_id";
+				$o = get_transient($cache_id);
+	            $page_id = 0;
+			}
+
+			if ( !sem_widget_cache_debug && !is_preview() && $o ) {
+				echo $o;
+				return;
+			}
 		}
 
 		silo_map::cache_pages();
@@ -159,7 +170,7 @@ class silo_map extends WP_Widget {
 
 		$o = ob_get_clean();
 
-		if ( !is_preview() ) {
+		if ( !is_preview() && $use_caching ) {
 			if ( is_page() ) {
 				if ( $_wp_using_ext_object_cache )
 					wp_cache_set($page_id, $o, $widget_id);
