@@ -122,8 +122,7 @@ class silo_map extends WP_Widget {
 			return;
 
 		$use_caching = true;
-		global $wp_version;
-		if ( version_compare( $wp_version, '3.9', '>=' ) )
+		if ( class_exists('WP_Customize_Widgets' ) )
 			if ( $this->is_preview() )
 				$use_caching = false;
 
