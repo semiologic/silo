@@ -1,9 +1,9 @@
 === Silo Widgets ===
 Contributors: Denis-de-Bernardy & Mike_Koepke
-Donate link: http://www.semiologic.com/partners/
+Donate link: https://www.semiologic.com/donate/
 Tags: semiologic
 Requires at least: 3.1
-Tested up to: 4.0
+Tested up to: 4.3
 Stable tag: trunk
 
 A collection of widgets to create silo web designed sites using static pages.
@@ -21,7 +21,7 @@ These options allow you to configure a title and a description that are then use
 
 = Help Me! =
 
-The [Semiologic forum](http://forum.semiologic.com) is the best place to report issues.
+The [Semiologic Support Page](https://www.semiologic.com/support/) is the best place to report issues.
 
 
 == Installation ==
@@ -31,6 +31,12 @@ The [Semiologic forum](http://forum.semiologic.com) is the best place to report 
 
 
 == Change Log ==
+
+= 3.6 =
+
+- Updated to use PHP5 constructors as WP deprecated PHP4 constructor type in 4.3.
+- WP 4.3 compat
+- Tested against PHP 5.6
 
 = 3.5 =
 

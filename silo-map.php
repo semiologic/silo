@@ -57,7 +57,7 @@ class silo_map extends WP_Widget {
 			'description' => __('A site map. Insert this as an inline widget in a static page for best effect.', 'silo'),
 			);
 
-		$this->WP_Widget('silo_map', __('Silo Map', 'silo'), $widget_ops);
+		parent::__construct('silo_map', __('Silo Map', 'silo'), $widget_ops);
 	} # silo_map()
 
 	/**

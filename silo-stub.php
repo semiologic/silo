@@ -62,7 +62,7 @@ class silo_stub extends WP_Widget {
 			'width' => 460,
 			);
 
-		$this->WP_Widget('silo_stub', __('Silo Stub', 'silo'), $widget_ops);
+		parent::__construct('silo_stub', __('Silo Stub', 'silo'), $widget_ops);
 	} # silo_stub()
 
 	/**
